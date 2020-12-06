@@ -9,7 +9,6 @@ import './index.css';
 import TRAIL_INFO from './data/trail_info.csv'; //a sample list of dogs (model)
 
 function App(props) {
-
   //const trail_info = TRAIL_INFO;
   //const renderTrailList = (renderProps) => <RenderTrailList {...renderProps} trail_info={trail_info} />
   /*
@@ -41,10 +40,9 @@ function App(props) {
               <Route path="/AboutTrail"component={AboutTrail}/>
               <Redirect to="/"/>
             </Switch>
-
           </div>
+          <TrailList trails={props.info}/>
         </div>
-        <TrailList trails={props.info}/>
       </main>
 
 
@@ -68,10 +66,7 @@ function AboutNav() {
   );
 }
 
-export function TrailCard(props) {
-  let imgSrc = 'img/'+props.trail.image;
-  let imgAlt = props.trail.trailName + " image";
-  return (
+/*
     <div className="d-flex p-2 col-lg-4">
       <div className="card mx-2 my-4">
         <img className="card-img-top" src={imgSrc} alt={imgAlt}/>
@@ -80,6 +75,18 @@ export function TrailCard(props) {
           <p className="card-text">{props.trail.address}</p>
           <button className="button float-right" class="btn btn-outline-secondary"><a href="expandedview.html">See more</a></button>
         </div>
+      </div>
+    </div>
+*/
+export function TrailCard(props) {
+  let imgSrc = 'img/'+props.trail.image;
+  let imgAlt = props.trail.trailName + " image";
+  return (    
+    <div key={props.trail.trailName} className="card">
+      <img className="card-img-top" src={imgSrc} alt={imgAlt} />
+      <div className="card-body">
+        <h3 className="card-title">{props.trail.trailName}</h3>
+        <p className="card-text">{props.trail.address}</p>
       </div>
     </div>
   );

@@ -1,3 +1,6 @@
+body{
+    font-family: "Helvetica Neue", sans-serif;
+}
 h1{
     color: white;
     font-family: Impact, Charcoal, sans-serif;
@@ -16,9 +19,6 @@ p{
     margin-top: 0em;
     margin-bottom: .2em;
 }
-body{
-    font-family: "Helvetica Neue", sans-serif;
-}
 
 footer {
     display: block;
@@ -27,168 +27,12 @@ footer {
     right: 0;
 }
 
-.roundCorners {
-    width: 20em;
-    border-radius: 15px;
-    
-    padding: 5px 5px 2px 25px;
-}
-
-.trail ol {
-    list-style-type: none;
-    padding-left: 0;
-}
-
-.trail {
-    display: inline-block;
-}
-
-.trail a::after {
-    display: inline-block;
-    color: #000;
-    content: '>';
-    font-size: 80%;
-    font-weight: bold;
-    padding: 0 3px;
-}
-
-/* Landing page styling */
-
-body.landing {
-    background-color: #fafafa;
-}
-
-h1.landing {  
-    text-align: center; 
-    font-size: 5em; 
-}
-
-h2.landing {
-    font-size: 2em;
-    margin: 1em;
-}
-
-main.landing {
-    text-align: center;
-    margin-top: 25vh;
-}
-
-.copyright-info {
-    background-color:#153C43;
-    color:white;
-    text-decoration:none;
-    padding:4px 6px;
-    font-family:-apple-system, BlinkMacSystemFont, 'San Francisco', 'Helvetica Neue', Helvetica, Ubuntu, Roboto, Noto, 'Segoe UI', Arial, sans-serif;
-    font-size:12px;
-    font-weight:bold;
-    line-height:1.2;
-    display:inline-block;
-    border-radius:3px;
-}
-
-p.landing > a.copyright-info {
-    display: none;
-}
-
-.footer_name {
-    display:inline-block;
-    padding:2px 3px;
-}
-.footer_icon {
-    height:12px;
-    width:auto;
-    position:relative;
-    vertical-align:middle;
-    top:-1px;
-    fill:white;
-}
-
-
 /* Add drop shadow to cards */
 .card {
     box-shadow: 4px 9px 10px -4px rgba(0,0,0,0.10), -4px 9px 10px -4px rgba(0,0,0,0.10);
 }
-
-
-
-@media (min-width: 768px) {
-    header {
-        background-image: url('img/aut-m.jpg');
-        background-position: center;
-        background-size: cover;
-    }
-    
-    html {
-        height: 100%;
-    }
-    
-    body.landing{
-        background-image: url('img/aut-m.jpg');
-        background-position: center;
-        background-size: cover;
-    }
-
-    h1.landing {
-        color:white;
-    }
-    h2.landing {
-        color: white;
-    }
-
-    p.landing > a.copyright-info {
-        display: block;
-    }
-
-    /* TODO: is supposed to change the color of the links to white but needs to be fixed*/
-    nav.landing{ 
-        color: white;
-    }
-   
-    /* Hide the leaf icon if the background is showing */
-    #leaf {
-        display: none;
-    }
-    
-}
-
-@media (min-width: 992px) {
-    header {
-        background-image: url('img/aut-lg.jpg');
-        background-position: center;
-        background-size: cover;
-    }
-    nav a{
-        font-size: 1.5rem;
-    }
-    h1 {
-        font-size: 5rem;
-    }
-    h2 {
-        font-size: 3rem;
-    }
-
-    body.landing{
-        background-image: url('img/aut-lg.jpg');
-        background-position: center;
-    }
-
-    p.landing {
-        color: white;
-    }
-    
-}
-
-@media (min-width: 1200px) {
-    header {
-        background-image: url('img/aut-xl.jpg');
-        background-position: center;
-        background-size: cover;
-
-    }
-    body.landing{
-        background-image: url('img/aut-xl.jpg');
-        background-position: center;
-
-    }
-
+/* keep images in check */
+.card-deck .card {
+    flex-basis: 200px;
+    margin-bottom: 30px;
 }
