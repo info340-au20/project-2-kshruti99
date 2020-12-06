@@ -1,38 +1,27 @@
-body{
-    font-family: "Helvetica Neue", sans-serif;
-}
-h1{
+header.jumbotron {
+    background-color: #2d708d;
     color: white;
-    font-family: Impact, Charcoal, sans-serif;
-    margin-bottom: 0%;
 }
 
-h2{
-    margin-top: .9em;
-    margin-bottom: .7em;
+nav {
+    background-color: #ddd;  
+    margin-bottom: 2em; 
+    padding: 1em;  
 }
-h3, li, ul{
-    margin-top: .9em;
-    margin-bottom: .7em;
-}
-p{
-    margin-top: 0em;
-    margin-bottom: .2em;
+  
+nav h2 {
+    font-size: 1.25rem;
 }
 
-footer {
-    display: block;
-    position: fixed;
-    bottom: 0;
-    right: 0;
-}
-
-/* Add drop shadow to cards */
-.card {
-    box-shadow: 4px 9px 10px -4px rgba(0,0,0,0.10), -4px 9px 10px -4px rgba(0,0,0,0.10);
-}
 /* keep images in check */
 .card-deck .card {
     flex-basis: 200px;
     margin-bottom: 30px;
 }
+
+/* add drop shadow to cards
+
+.card {
+    box-shadow: 4px 9px 10px -4px rgba(0,0,0,0.10), -4px 9px 10px -4px rgba(0,0,0,0.10);
+}
+*/
