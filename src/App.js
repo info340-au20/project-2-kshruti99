@@ -4,6 +4,8 @@ import{ BrowserRouter, Route , Switch, Link, Redirect, NavLink} from 'react-rout
 //import './App.css'; //import css file!
 import AboutTrail from './AboutTrail';
 
+import './index.css';
+
 
 import TRAIL_INFO from './data/trail_info.csv'; //a sample list of dogs (model)
 
