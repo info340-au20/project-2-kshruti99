@@ -18,7 +18,7 @@ function App(props) {
     allTrails.push(props.info[trail].trailName);
   }*/
 
-  //const renderTrailList = (renderProps) => <TrailList {...renderProps} trails={props.info} />
+  const renderTrailList = (renderProps) => <TrailList {...renderProps} trails={props.info} />
 
   return (
     <div>
@@ -36,16 +36,17 @@ function App(props) {
       <div className="row">
           <div className="col-3">
             <AboutNav />
+            {/*<Search />*/}
           </div>
           <div className="col-9">
             <Switch>
-              {/*<Route exact path="/" render={renderTrailList}/>*/}
-              <Route exact path="/"/>
+              <Route exact path="/" render={renderTrailList}/>
+              {/*<Route exact path="/"/>*/}
               <Route path="/AboutTrail"component={AboutTrail}/>
               <Redirect to="/"/>
             </Switch>
           </div>
-          <TrailList trails={props.info}/>
+          {/*<TrailList trails={props.info}/>*/}
         </div>
       </main>
 
@@ -57,6 +58,7 @@ function App(props) {
     </div>
   );
 }
+
 
 function AboutNav() {
   return (
