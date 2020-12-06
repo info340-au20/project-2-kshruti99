@@ -8,7 +8,6 @@ function AboutTrail(props) {
   return (
     <div>
       <h2>Wow it's the trail info page.</h2>
-
     </div>
   );
 }
