@@ -1,9 +1,9 @@
 
-
+/*
 header.jumbotron {
     background-color: #2d708d;
     color: white;
-}
+}*/
 
 nav {
     background-color: #ddd;  
@@ -46,17 +46,14 @@ footer {
 }
 
 
-
-
-
-
-
-
-/* add drop shadow to cards
-
+/* Add drop shadow to cards */
 .card {
     box-shadow: 4px 9px 10px -4px rgba(0,0,0,0.10), -4px 9px 10px -4px rgba(0,0,0,0.10);
 }
+
+
+
+
 /* keep images in check */
 .card-deck .card {
     flex-basis: 200px;

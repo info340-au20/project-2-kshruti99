@@ -4,9 +4,10 @@ import{ BrowserRouter, Route , Switch, Link, Redirect, NavLink} from 'react-rout
 //import './App.css'; //import css file!
 import AboutTrail from './AboutTrail';
 import './index.css';
+import { Button } from 'reactstrap';
 
 
-import TRAIL_INFO from './data/trail_info.csv'; //a sample list of dogs (model)
+
 
 function App(props) {
   //const trail_info = TRAIL_INFO;
@@ -16,6 +17,8 @@ function App(props) {
   for (var trail in props.info) {
     allTrails.push(props.info[trail].trailName);
   }*/
+
+  //const renderTrailList = (renderProps) => <TrailList {...renderProps} trails={props.info} />
 
   return (
     <div>
@@ -36,7 +39,8 @@ function App(props) {
           </div>
           <div className="col-9">
             <Switch>
-              <Route exact path="/" />
+              {/*<Route exact path="/" render={renderTrailList}/>*/}
+              <Route exact path="/"/>
               <Route path="/AboutTrail"component={AboutTrail}/>
               <Redirect to="/"/>
             </Switch>
@@ -87,6 +91,7 @@ export function TrailCard(props) {
       <div className="card-body">
         <h3 className="card-title">{props.trail.trailName}</h3>
         <p className="card-text">{props.trail.address}</p>
+        <Button disabled size="large" color="primary">More Information</Button>
       </div>
     </div>
   );
