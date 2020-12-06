@@ -108,6 +108,11 @@ p.landing > a.copyright-info {
 .card {
     box-shadow: 4px 9px 10px -4px rgba(0,0,0,0.10), -4px 9px 10px -4px rgba(0,0,0,0.10);
 }
+/* keep images in check */
+.card-deck .card {
+    flex-basis: 200px;
+    margin-bottom: 30px;
+  }
 
 
 
