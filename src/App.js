@@ -3,6 +3,7 @@ import React, { useState } from 'react'; //import React Component
 import{ BrowserRouter, Route , Switch, Link, Redirect, NavLink} from 'react-router-dom';
 //import './App.css'; //import css file!
 import AboutTrail from './AboutTrail';
+import './index.css';
 
 
 import TRAIL_INFO from './data/trail_info.csv'; //a sample list of dogs (model)
@@ -32,7 +33,6 @@ function App(props) {
             <AboutNav />
           </div>
           <div className="col-9">
-            {/*<PetList pets={pets} />*/}
             <Switch>
               <Route exact path="/" />
               <Route path="/AboutTrail"component={AboutTrail}/>
