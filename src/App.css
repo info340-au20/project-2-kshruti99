@@ -64,7 +64,7 @@ footer {
 
 @media (min-width: 768px) {
     header {
-        background-image: url('img/aut-m.jpg');
+        background-image: url('/img/aut-m.jpg');
         background-position: center;
         background-size: cover;
     }
@@ -74,7 +74,7 @@ footer {
 
 @media (min-width: 992px) {
     header {
-        background-image: url('img/aut-lg.jpg');
+        background-image: url('/img/aut-lg.jpg');
         background-position: center;
         background-size: cover;
     }
@@ -93,7 +93,7 @@ footer {
 
 @media (min-width: 1200px) {
     header {
-        background-image: url('img/aut-xl.jpg');
+        background-image: url('/img/aut-xl.jpg');
         background-position: center;
         background-size: cover;
 

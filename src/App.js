@@ -1,9 +1,8 @@
 
 import React, { useState } from 'react'; //import React Component
-import{ BrowserRouter, Route , Switch, Link, Redirect, NavLink} from 'react-router-dom';
-//import './App.css'; //import css file!
+import{ Route , Switch, Link, Redirect, NavLink} from 'react-router-dom';
 import AboutTrail from './AboutTrail';
-import './index.css';
+import './App.css';
 import { Button } from 'reactstrap';
 
 
