@@ -133,7 +133,7 @@ export function TrailList(props) {
   });
 
   return (
-    <div id="trailList" className="col-9">
+    <div id="trailList" className="col-9">  
       <h2>Trails to Visit in Greater Seattle</h2>
       <div className="card-deck">
         {deck}

@@ -43,7 +43,7 @@ function AboutTrail(props) {
   return (
     <div>
 
-      <h2>Wow it's the trail info page for {urlParams.trailname}.</h2>
+      <h2>{urlParams.trailname}</h2>
       {/*<h2>Wow it's information:  {ourTrail.zipcode}.</h2>*/}
       <p>{ourTrail.description}</p>
     </div>
