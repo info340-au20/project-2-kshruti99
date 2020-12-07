@@ -75,9 +75,9 @@ function App(props) {
 function AboutNav() {
   return (
     <nav id="aboutLinks">
-      <h2>About</h2>
+      
       <ul className="list-unstyled">
-        <li><NavLink exact to="/" activeClassName="activeLink">Home</NavLink></li>
+        <li><NavLink exact to="/" activeClassName="activeLink">Back to Search</NavLink></li>
         {/*<li><NavLink to="/AboutTrail" activeClassName="activeLink">Specific Trail</NavLink></li>*/}
       </ul>
     </nav>
@@ -132,7 +132,7 @@ export function TrailList(props) {
 
   return (
     <div id="trailList" className="col-9">  
-      <h2>Trails to Visit in Greater Seattle</h2>
+      <h2>Trails to Visit in Greater Seattle Area</h2>
       <div className="card-deck">
         {deck}
       </div>
