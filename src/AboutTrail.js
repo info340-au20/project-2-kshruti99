@@ -8,11 +8,27 @@ function AboutTrail(props) {
   let ourTrailName = ''; //REPLACE THIS WITH CORRECT VALUE
   const urlParams = useParams();
   ourTrailName = urlParams.trailname;
+  // ourTrailName works and is correct
 
-  let ourTrail =  _.find(props.info, {trailName: ourTrailName});
-  
-  console.log("ourTrail is: " + urlParams.trailname);
-  console.log("information is: " + ourTrail.zipcode);
+
+  //this lodash doens't work
+  //let ourTrail =  _.find(props.info, {trailName: ourTrailName});
+
+
+  let ourTrail = undefined;
+
+  for(var eachTrail in props.info) {
+    console.log("each trail" + eachTrail);
+    console.log("each trail name" + props.info[eachTrail].trailName);
+    if(props.info[eachTrail].trailName == ourTrailName) {
+      console.log("does it even");
+      ourTrail = props.info[trailName];
+    }
+
+  }
+
+  console.log("ourTrailName is: " +  ourTrailName);
+  //console.log("information is: " + ourTrail);
   
 
 
@@ -23,6 +39,7 @@ function AboutTrail(props) {
     <div>
 
       <h2>Wow it's the trail info page for {urlParams.trailname}.</h2>
+      {/*<h2>Wow it's information:  {ourTrail.zipcode}.</h2>*/}
 
     </div>
   );
