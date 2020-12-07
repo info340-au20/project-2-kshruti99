@@ -2,7 +2,6 @@
 import React, { useState } from 'react'; //import React Component
 import{ Route , Switch, Link, Redirect, NavLink} from 'react-router-dom';
 import AboutTrail from './AboutTrail';
-import './App.css';
 import { Button } from 'reactstrap';
 
 
