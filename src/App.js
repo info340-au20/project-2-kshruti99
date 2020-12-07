@@ -18,8 +18,11 @@ function App(props) {
     allTrails.push(props.info[trail].trailName);
   }*/
 
-  const renderTrailList = (renderProps) => <TrailList {...renderProps} trails={props.info} />
+  //const filteredTrails = (trail) => props.info.filter()
+  
+  
 
+  const renderTrailList = (renderProps) => <TrailList {...renderProps} trails={props.info} />
   return (
     <div>
       <header class="jumbotron jumbotron-fluid bg-dark text-white">
@@ -37,6 +40,10 @@ function App(props) {
           <div className="col-3">
             <AboutNav />
             {/*<Search />*/}
+            <input
+              type="text"
+              placeholder="Search"
+            />
           </div>
           <div className="col-9">
             <Switch>
