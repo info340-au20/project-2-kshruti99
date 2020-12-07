@@ -54,7 +54,9 @@ function App(props) {
             <Switch>
               <Route exact path="/" render={renderTrailList}/>
               {/*<Route exact path="/"/>*/}
-              <Route path="/AboutTrail/:trailname"component={AboutTrail}/>
+              <Route path="/AboutTrail/:trailname" 
+                render={(props) => <AboutTrail {...props} info={props}/>} 
+              />
               <Redirect to="/"/>
             </Switch>
           </div>

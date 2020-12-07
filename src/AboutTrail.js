@@ -17,6 +17,7 @@ function AboutTrail(props) {
 
   let ourTrail = undefined;
 
+  /*
   for(var eachTrail in props.info) {
     console.log("each trail" + eachTrail);
     console.log("each trail name" + props.info[eachTrail].trailName);
@@ -25,10 +26,14 @@ function AboutTrail(props) {
       ourTrail = props.info[trailName];
     }
 
+  }*/
+  for(var i = 0; i < Object.keys(props.info).length; i++) {
+    if(props.info[i].trailName==ourTrailName)
+      ourTrail = props.info[i];
   }
 
   console.log("ourTrailName is: " +  ourTrailName);
-  //console.log("information is: " + ourTrail);
+  console.log("information is: " + ourTrail.zipcode);
   
 
 
