@@ -55,7 +55,7 @@ function App(props) {
               <Route exact path="/" render={renderTrailList}/>
               {/*<Route exact path="/"/>*/}
               <Route path="/AboutTrail/:trailname" 
-                render={(props) => <AboutTrail {...props} info={props}/>} 
+                render={() => <AboutTrail info={props.info}/>} 
               />
               <Redirect to="/"/>
             </Switch>
