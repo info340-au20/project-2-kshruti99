@@ -10,19 +10,21 @@ import { Button } from 'reactstrap';
 
 
 function App(props) {
-  //const trail_info = TRAIL_INFO;
-  //const renderTrailList = (renderProps) => <RenderTrailList {...renderProps} trail_info={trail_info} />
-  /*
-  let allTrails = [];
-  for (var trail in props.info) {
-    allTrails.push(props.info[trail].trailName);
-  }*/
 
-  //const filteredTrails = (trail) => props.info.filter()
+  const renderTrailList = (renderProps) => <TrailList {...renderProps} trails={trailResults} />
   
-  
+  const [trailZip, setZipInp] = React.useState("");
+  const [trailResults, getTrailResults] = React.useState([]);
+  const searchTyped = e => {
+    setZipInp(e.target.value);
+  };
+  React.useEffect(() => {
+    const trailResults = props.info.filter(trail =>
+      (trail.zipcode+'').indexOf(''+trailZip) > -1
+    );
+    getTrailResults(trailResults);
+  }, [trailZip]);
 
-  const renderTrailList = (renderProps) => <TrailList {...renderProps} trails={props.info} />
   return (
     <div>
       <header class="jumbotron jumbotron-fluid bg-dark text-white">
@@ -36,7 +38,7 @@ function App(props) {
     
       <main className="container">
       
-      
+
       <div className="row">
           <div className="col-3">
             <AboutNav />
@@ -44,6 +46,8 @@ function App(props) {
             <input
               type="text"
               placeholder="Search"
+              value={trailZip}
+              onChange={searchTyped}
             />
           </div>
           <div className="col-9">
@@ -109,8 +113,6 @@ export function TrailCard(props) {
     return <Redirect push to={"/AboutTrail/" + redirectTo }/>
   }
 
-
-
   return (    
     <div key={props.trail.trailName} className="card">
       <img className="card-img-top" src={imgSrc} alt={imgAlt} />
@@ -132,7 +134,7 @@ export function TrailList(props) {
   return (
     <div id="trailList" className="col-9">
       <h2>Trails to Visit in Greater Seattle</h2>
-      <div class="card-deck">
+      <div className="card-deck">
         {deck}
       </div>
     </div>
