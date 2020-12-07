@@ -5,11 +5,30 @@ import { useParams } from 'react-router-dom';
 
 function AboutTrail(props) {
 
-  let ourTrail = ''; //REPLACE THIS WITH CORRECT VALUE
+  //let ourTrailName = ''; //REPLACE THIS WITH CORRECT VALUE
   const urlParams = useParams();
-  ourTrail = urlParams.trailName;
-  console.log(ourTrail);
 
+  /*
+  let ourTrailName = ''; //REPLACE THIS WITH CORRECT VALUE
+  const urlParams = useParams();
+  console.log("hi1");
+  ourTrailName = urlParams.trailname;
+  console.log(ourTrailName);
+  console.log("hi2");
+  //artificially do this
+
+  */
+
+
+  //let  ourTrail =  _.find(props.info, {trailName: ourTrailName});
+
+  
+
+  //let ourTrail =  _.find(props.info, {trailName: ourTrailName});
+  console.log("ourTrail is: " + urlParams.trailname);
+
+
+  
 
   //find the trail from the json file for trail information
 
@@ -18,7 +37,7 @@ function AboutTrail(props) {
   return (
     <div>
 
-      <h2>Wow it's the trail info page for {ourTrail}.</h2>
+      <h2>Wow it's the trail info page for {urlParams.trailname}.</h2>
 
     </div>
   );
