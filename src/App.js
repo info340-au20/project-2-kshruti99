@@ -112,6 +112,53 @@ export function TrailCard(props) {
   if(redirectTo !== undefined) {
     return <Redirect push to={"/AboutTrail/" + redirectTo }/>
   }
+/*
+  let saveStatus = "Save";
+
+  if(props.trail.favorite == "Unsave") {
+    saveStatus = "Unsave";
+  }
+
+
+  const handleSaveClick = () => {
+    if(props.trail.favorite = "Unsave")
+
+
+    
+    //props.trail.favorite = "Unsave";
+    console.log("you handled the save click")
+    console.log({saveStatus});
+    console.log(props.trail.favorite);
+  }
+
+  //put if statement here
+*/
+
+  // set savae status for the button
+  let saveStatus = "Save"; // defaults to Save
+  if(props.trail.favorite == "Unsave") {
+    saveStatus = "Unsave";
+  }
+
+
+  // When save button is clicked, toggles it visually
+  // also changes the actual "saved" or not information
+  const handleSaveClick = () => {
+    if(props.trail.favorite == "Unsave" ) {
+      props.trail.favorite = "Save";
+    } else {
+      props.trail.favorite = "Unsave"
+    }
+    
+    console.log("you handled the save click")
+    console.log({saveStatus});
+    console.log(props.trail.favorite);
+  }
+
+
+
+
+
 
   return (    
     <div key={props.trail.trailName} className="card">
@@ -119,7 +166,8 @@ export function TrailCard(props) {
       <div className="card-body">
         <h3 className="card-title">{props.trail.trailName}</h3>
         <p className="card-text">{props.trail.address}</p>
-        <Button onClick = {handleClick} size="large" color="primary">More Information</Button>
+        <Button onClick = {handleClick} size="medium" color="primary">More Information</Button>
+        <Button onClick = {handleSaveClick} size="medium" color="primary">{saveStatus}</Button>
       </div>
     </div>
   );
