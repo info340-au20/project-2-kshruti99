@@ -2,6 +2,7 @@
 import React, { useState } from 'react'; //import React Component
 import{ Route , Switch, Link, Redirect, NavLink} from 'react-router-dom';
 import AboutTrail from './AboutTrail';
+import SavedTrails from './SavedTrails';
 import { Button } from 'reactstrap';
 
 
@@ -51,14 +52,13 @@ function App(props) {
           <div className="col-9">
             <Switch>
               <Route exact path="/" render={renderTrailList}/>
-              {/*<Route exact path="/"/>*/}
               <Route path="/AboutTrail/:trailname" 
                 render={() => <AboutTrail info={props.info}/>} 
               />
+              <Route path="/SavedTrails" component={SavedTrails}/>
               <Redirect to="/"/>
             </Switch>
           </div>
-          {/*<TrailList trails={props.info}/>*/}
         </div>
       </main>
 
@@ -78,6 +78,7 @@ function AboutNav() {
       
       <ul className="list-unstyled">
         <li><NavLink exact to="/" activeClassName="activeLink">Back to Search</NavLink></li>
+        <li><NavLink to="/SavedTrails" activeClassName="activeLink">Saved Trails</NavLink></li>
         {/*<li><NavLink to="/AboutTrail" activeClassName="activeLink">Specific Trail</NavLink></li>*/}
       </ul>
     </nav>
@@ -132,7 +133,7 @@ export function TrailList(props) {
 
   return (
     <div id="trailList" className="col-9">  
-      <h2>Trails to Visit in Greater Seattle Area</h2>
+      <h2>Trails to Visit in the Greater Seattle Area</h2>
       <div className="card-deck">
         {deck}
       </div>
