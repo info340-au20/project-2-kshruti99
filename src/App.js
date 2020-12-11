@@ -146,7 +146,7 @@ export function TrailCard(props) {
 
   // set savae status for the button
   let saveStatus = "Save"; // defaults to Save
-  if(props.trail.favorite == "Unsave") {
+  if(props.trail.favorite === "Unsave") {
     saveStatus = "Unsave";
   }
 
@@ -180,7 +180,7 @@ export function TrailCard(props) {
 */
 
     // IDEA 1
-    if(props.trail.favorite == "Unsave" ) {
+    if(props.trail.favorite === "Unsave" ) {
       props.trail.favorite = "Save";
     } else {
       props.trail.favorite = "Unsave";
@@ -188,6 +188,13 @@ export function TrailCard(props) {
 
     setSave(props.trail);
     
+    if(props.trail.favorite === "Unsave") {
+      saveStatus = "Unsave";
+    } else {
+      saveStatus = "Save";
+    }
+  
+
     console.log("you handled the save click")
     console.log({saveStatus});
     console.log(props.trail.favorite);
