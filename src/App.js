@@ -14,6 +14,20 @@ function App(props) {
   
   const [trailZip, setZipInp] = React.useState("");
   const [trailResults, getTrailResults] = React.useState([]);
+    // setting up initial save button
+    let initSaveTrails = props.info.map(trail => {
+      trail.favorite="Save";
+      return trail;
+    })
+
+  const [myTrails, setSave] = useState(initSaveTrails);
+
+
+  //setSave(modifiedTrails);
+  console.log(props.info);
+
+
+
 
   const searchTyped = e => {
     setZipInp(e.target.value);
@@ -85,24 +99,13 @@ function AboutNav() {
   );
 }
 
-/*
-    <div className="d-flex p-2 col-lg-4">
-      <div className="card mx-2 my-4">
-        <img className="card-img-top" src={imgSrc} alt={imgAlt}/>
-        <div className="card-body">
-          <h4 className="card-title">{props.trail.trailName}</h4>
-          <p className="card-text">{props.trail.address}</p>
-          <button className="button float-right" class="btn btn-outline-secondary"><a href="expandedview.html">See more</a></button>
-        </div>
-      </div>
-    </div>
-*/
+
 export function TrailCard(props) {
   let imgSrc = 'img/'+props.trail.image;
   let imgAlt = props.trail.trailName + " image";
   console.log(props);
   // states const for setting the save
-  const [myTrail, setSave] = useState(props);
+  
   const [buttonText, setButtonText] = useState("Save"); //same as creating your state variable where "Next" is the default value for buttonText and setButtonText is the setter function for your state variable instead of setState
 
   const [redirectTo, setRedirectTo] = useState(undefined);
@@ -147,13 +150,24 @@ export function TrailCard(props) {
   // also changes the actual "saved" or not information
     const handleSaveClick = () => {
 
-    // IDEA 1
-    
+    // IDEA 1 this works on a local level
+    /*
     if(props.trail.favorite === "Unsave" ) {
       props.trail.favorite = "Save";
     } else {
       props.trail.favorite = "Unsave";
     }
+*/
+
+    // trying to make this work on a larger scale
+    /* what doenst work
+    let modifiedTrails = myTrails.map(trail => {
+      trail.favorite="Unsave";
+      return trail;
+    })
+
+    setSave(modifiedTrails);
+*/
 
     if(buttonText === "Unsave" ) {
       setButtonText("Save");
