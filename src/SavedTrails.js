@@ -10,6 +10,8 @@ function SavedTrails(props) {
 
   // should i define the trails here or in apps
   // or maybe just do the information processing overthere and set the display of the button here as none
+  console.log(props);
+
   return (
     <div>
 

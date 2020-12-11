@@ -14,6 +14,7 @@ function App(props) {
   
   const [trailZip, setZipInp] = React.useState("");
   const [trailResults, getTrailResults] = React.useState([]);
+
   const searchTyped = e => {
     setZipInp(e.target.value);
   };
@@ -52,10 +53,8 @@ function App(props) {
           <div className="col-9">
             <Switch>
               <Route exact path="/" render={renderTrailList}/>
-              <Route path="/AboutTrail/:trailname" 
-                render={() => <AboutTrail info={props.info}/>} 
-              />
-              <Route path="/SavedTrails" component={SavedTrails}/>
+              <Route path="/AboutTrail/:trailname"  render={() => <AboutTrail info={props.info}/>} />
+              <Route path="/SavedTrails" render={() => <SavedTrails info={props.info}/>}/>
               <Redirect to="/"/>
             </Switch>
           </div>
@@ -162,9 +161,6 @@ export function TrailCard(props) {
     } else {
       setButtonText("Unsave");
     }
-
-
-    setSave(props.trail);
 
 
     console.log("you handled the save click")
