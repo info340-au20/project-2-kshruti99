@@ -64,6 +64,7 @@ function App(props) {
 
 
       <footer className="container">
+        <small>&#169; Website created by Midori Komi and Shruti Kompella </small>
         <small>Data from <a href="https://www.seattle.gov/transportation/projects-and-programs/programs/bike-program/bike-counters?fbclid=IwAR3copSZvbf_CzzlbkfLm_q49LUp1y9djxjn6MyGpeKiZZlq5AAS2ZRdUhc"> Seattle Department of Transportation</a></small>
         <small>Images from <a href ="https://unsplash.com/photos/Fv9fk47HBr4/"> Hannah Reding</a></small>
       </footer>
@@ -100,7 +101,9 @@ function AboutNav() {
 export function TrailCard(props) {
   let imgSrc = 'img/'+props.trail.image;
   let imgAlt = props.trail.trailName + " image";
-
+  console.log(props);
+  // states const for setting the save
+  const [myTrail, setSave] = useState(props);
 
   const [redirectTo, setRedirectTo] = useState(undefined);
 
@@ -112,27 +115,34 @@ export function TrailCard(props) {
   if(redirectTo !== undefined) {
     return <Redirect push to={"/AboutTrail/" + redirectTo }/>
   }
+
+/*  -----------------------------------------------------
+  const [pets, setPets] = useState(props.pets);
+  let breedList = [];
+  for(var petNum in props.pets) {
+    if(!breedList.includes(props.pets[petNum].breed)) {
+      breedList.push(props.pets[petNum].breed);
+    }  
+  }
+
+  // callback function for 9
+  const handleAdopt = (name) => {
+    //creating the copy
+    let modifiedPets = pets.map(pet => {
+      if (pet.name == name) {
+        pet.adopted = true;
+      }
+      return pet;
+    })
+    // updating the array
+     setPets(modifiedPets);
+  }*/
+
+
+
 /*
-  let saveStatus = "Save";
-
-  if(props.trail.favorite == "Unsave") {
-    saveStatus = "Unsave";
-  }
-
-
-  const handleSaveClick = () => {
-    if(props.trail.favorite = "Unsave")
-
-
-    
-    //props.trail.favorite = "Unsave";
-    console.log("you handled the save click")
-    console.log({saveStatus});
-    console.log(props.trail.favorite);
-  }
-
-  //put if statement here
-*/
+  // states const for setting the save
+  const [trails, setSave] = useState(props);*/
 
   // set savae status for the button
   let saveStatus = "Save"; // defaults to Save
@@ -143,12 +153,40 @@ export function TrailCard(props) {
 
   // When save button is clicked, toggles it visually
   // also changes the actual "saved" or not information
-  const handleSaveClick = () => {
+    const handleSaveClick = () => {
+
+     /*  //IDEA 2
+      let saveAlteredTrails = props.trail.map(trail => {
+        if(trail.favorite == "Unsave" ) {
+          trail.favorite = "Save";
+        } else {
+          trail.favorite = "Unsave";
+        }
+        return trail;
+      })  
+    setSave(saveAlteredTrails);
+*/
+
+ /*     //IDEA 2
+      let saveAlteredTrails = props.trail.map(trail => {
+        if(trail.favorite == "Unsave" ) {
+          trail.favorite = "Save";
+        } else {
+          trail.favorite = "Unsave";
+        }
+        return trail;
+      })  
+    setSave(saveAlteredTrails);
+*/
+
+    // IDEA 1
     if(props.trail.favorite == "Unsave" ) {
       props.trail.favorite = "Save";
     } else {
-      props.trail.favorite = "Unsave"
+      props.trail.favorite = "Unsave";
     }
+
+    setSave(props.trail);
     
     console.log("you handled the save click")
     console.log({saveStatus});

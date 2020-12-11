@@ -4,6 +4,9 @@ header.jumbotron {
     background-color: #2d708d;
     color: white;
 }*/
+main {
+    min-height: 100vh;
+}
 
 nav {
     background-color: #ddd;  
@@ -40,9 +43,9 @@ p{
 
 footer {
     display: block;
-    position: fixed;
-    bottom: 0;
-    right: 0;
+    
+    
+    
 }
 
 
