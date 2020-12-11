@@ -104,6 +104,7 @@ export function TrailCard(props) {
   console.log(props);
   // states const for setting the save
   const [myTrail, setSave] = useState(props);
+  const [buttonText, setButtonText] = useState("Save"); //same as creating your state variable where "Next" is the default value for buttonText and setButtonText is the setter function for your state variable instead of setState
 
   const [redirectTo, setRedirectTo] = useState(undefined);
 
@@ -115,6 +116,7 @@ export function TrailCard(props) {
   if(redirectTo !== undefined) {
     return <Redirect push to={"/AboutTrail/" + redirectTo }/>
   }
+
 
 /*  -----------------------------------------------------
   const [pets, setPets] = useState(props.pets);
@@ -140,63 +142,32 @@ export function TrailCard(props) {
 
 
 
-/*
-  // states const for setting the save
-  const [trails, setSave] = useState(props);*/
-
-  // set savae status for the button
-  let saveStatus = "Save"; // defaults to Save
-  if(props.trail.favorite === "Unsave") {
-    saveStatus = "Unsave";
-  }
 
 
   // When save button is clicked, toggles it visually
   // also changes the actual "saved" or not information
     const handleSaveClick = () => {
 
-     /*  //IDEA 2
-      let saveAlteredTrails = props.trail.map(trail => {
-        if(trail.favorite == "Unsave" ) {
-          trail.favorite = "Save";
-        } else {
-          trail.favorite = "Unsave";
-        }
-        return trail;
-      })  
-    setSave(saveAlteredTrails);
-*/
-
- /*     //IDEA 2
-      let saveAlteredTrails = props.trail.map(trail => {
-        if(trail.favorite == "Unsave" ) {
-          trail.favorite = "Save";
-        } else {
-          trail.favorite = "Unsave";
-        }
-        return trail;
-      })  
-    setSave(saveAlteredTrails);
-*/
-
     // IDEA 1
+    
     if(props.trail.favorite === "Unsave" ) {
       props.trail.favorite = "Save";
     } else {
       props.trail.favorite = "Unsave";
     }
 
-    setSave(props.trail);
-    
-    if(props.trail.favorite === "Unsave") {
-      saveStatus = "Unsave";
-    } else {
-      saveStatus = "Save";
-    }
+    if(buttonText === "Unsave" ) {
+      setButtonText("Save");
   
+    } else {
+      setButtonText("Unsave");
+    }
+
+
+    setSave(props.trail);
+
 
     console.log("you handled the save click")
-    console.log({saveStatus});
     console.log(props.trail.favorite);
   }
 
@@ -212,7 +183,7 @@ export function TrailCard(props) {
         <h3 className="card-title">{props.trail.trailName}</h3>
         <p className="card-text">{props.trail.address}</p>
         <Button onClick = {handleClick} size="medium" color="primary">More Information</Button>
-        <Button onClick = {handleSaveClick} size="medium" color="primary">{saveStatus}</Button>
+        <Button onClick = {handleSaveClick} size="medium" color="primary">{buttonText}</Button>
       </div>
     </div>
   );
