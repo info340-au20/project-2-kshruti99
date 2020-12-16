@@ -14,20 +14,17 @@ function App(props) {
   
   const [trailZip, setZipInp] = React.useState("");
   const [trailResults, getTrailResults] = React.useState([]);
-    // setting up initial save button
-    let initSaveTrails = props.info.map(trail => {
-      trail.favorite="Save";
-      return trail;
-    })
+  // setting up initial save button
 
-  const [myTrails, setSave] = useState(initSaveTrails);
+  /*
+  let initSaveTrails = props.info.map(trail => {
+    trail.favorite="Save";
+    return trail;
+  })*/
 
-
+  const [myTrails, setSave] = useState([]);
   //setSave(modifiedTrails);
-  console.log(props.info);
-
-
-
+  //console.log(props.info);
 
   const searchTyped = e => {
     setZipInp(e.target.value);
@@ -50,10 +47,8 @@ function App(props) {
             </div>
       </header>
     
-      <main className="container">
-      
-
-      <div className="row">
+      <main className="container">   
+        <div className="row">
           <div className="col-3">
             <AboutNav />
             {/*<Search />*/}
@@ -88,12 +83,10 @@ function App(props) {
 
 function AboutNav() {
   return (
-    <nav id="aboutLinks">
-      
+    <nav id="aboutLinks">      
       <ul className="list-unstyled">
         <li><NavLink exact to="/" activeClassName="activeLink">Back to Search</NavLink></li>
         <li><NavLink to="/SavedTrails" activeClassName="activeLink">Saved Trails</NavLink></li>
-        {/*<li><NavLink to="/AboutTrail" activeClassName="activeLink">Specific Trail</NavLink></li>*/}
       </ul>
     </nav>
   );
@@ -103,16 +96,15 @@ function AboutNav() {
 export function TrailCard(props) {
   let imgSrc = 'img/'+props.trail.image;
   let imgAlt = props.trail.trailName + " image";
-  console.log(props);
+  //console.log(props);
   // states const for setting the save
   
   const [buttonText, setButtonText] = useState("Save"); //same as creating your state variable where "Next" is the default value for buttonText and setButtonText is the setter function for your state variable instead of setState
-
   const [redirectTo, setRedirectTo] = useState(undefined);
 
   const handleClick = () => {
     setRedirectTo(props.trail.trailName);
-    console.log("you clicked", props.trail.trailName); // for testing purposes
+    //console.log("you clicked", props.trail.trailName); // for testing purposes
   }
 
   if(redirectTo !== undefined) {
@@ -141,49 +133,18 @@ export function TrailCard(props) {
     // updating the array
      setPets(modifiedPets);
   }*/
-
-
-
-
-
   // When save button is clicked, toggles it visually
   // also changes the actual "saved" or not information
     const handleSaveClick = () => {
-
-    // IDEA 1 this works on a local level
-    /*
-    if(props.trail.favorite === "Unsave" ) {
-      props.trail.favorite = "Save";
-    } else {
-      props.trail.favorite = "Unsave";
+      if(buttonText === "Unsave" ) {
+        setButtonText("Save");
+      } else {
+        setButtonText("Unsave");
+      }
+      /*
+      console.log("you handled the save click")
+      console.log(props.trail.favorite);*/
     }
-*/
-
-    // trying to make this work on a larger scale
-    /* what doenst work
-    let modifiedTrails = myTrails.map(trail => {
-      trail.favorite="Unsave";
-      return trail;
-    })
-
-    setSave(modifiedTrails);
-*/
-
-    if(buttonText === "Unsave" ) {
-      setButtonText("Save");
-  
-    } else {
-      setButtonText("Unsave");
-    }
-
-
-    console.log("you handled the save click")
-    console.log(props.trail.favorite);
-  }
-
-
-
-
 
 
   return (    
