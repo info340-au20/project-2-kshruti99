@@ -1,9 +1,9 @@
 
 import React, { useEffect, useState } from 'react'; //import React Component
-import{ Route , Switch, Link, Redirect, NavLink} from 'react-router-dom';
+import{ Route , Switch, Redirect, NavLink} from 'react-router-dom';
 import AboutTrail from './AboutTrail';
 import SavedTrails from './SavedTrails';
-import { Button } from 'reactstrap';
+import TrailList from './TrailList';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import firebase from 'firebase/app';
 import 'firebase/auth';
@@ -29,22 +29,15 @@ const uiConfig = {
 
 
 function App(props) {
-
-  const renderTrailList = (renderProps) => <TrailList {...renderProps} trails={trailResults} saveCallback={handleSavedTrails} statusCallback={checkStatus} user={user} />
-  
-  const [trailZip, setZipInp] = React.useState("");
-  const [trailResults, getTrailResults] = React.useState([]);
-
-  const [myTrails, setSave] = React.useState([]);
-  const [newTrail, addTrail] = React.useState(0);
-  const [isSaved, changeStatus] = React.useState(false);
-  const [saveCount, updateCount] = React.useState(0);
-  const [allTrails, trackStatus] = React.useState(props.info);
-
+  const [trailZip, setZipInp] = useState("");
+  const [trailResults, getTrailResults] = useState([]);
   const [user, setUser] = useState(undefined);
-  const [errorMessage, setErrorMessage] = useState(undefined);
-  const [isLoading, setIsLoading] = useState(true);
-  React.useEffect(() => {
+
+  //error handling and making a spinner for loading
+  //const [errorMessage, setErrorMessage] = useState(undefined);
+  //const [isLoading, setIsLoading] = useState(true);
+  
+  useEffect(() => {
     firebase.auth().onAuthStateChanged((firebaseUser) => {
       if(firebaseUser) {
         setUser(firebaseUser)
@@ -53,16 +46,15 @@ function App(props) {
       else {
         setUser(null)
       }
-      //console.log("auth state has changed");
     })
   })
 
+  /*spinner and handling sign out with errors
   const handleSignOut = () => {
     setErrorMessage(null); //clear any old errors
     firebase.auth().signOut()
   }
-
-  /*
+  
   if(isLoading) {
     return (
       <div className="text-center">
@@ -71,113 +63,18 @@ function App(props) {
     )
   }*/
 
-  const checkStatus = (id) => {
-    for (let i=0; i< allTrails.length; i++) {
-      if(allTrails[i].id==id) {
-        if (allTrails[i].hasOwnProperty('saved'))
-          return(allTrails[i].saved);
-        else
-          return(false);
-      }
-    }
-    return false;
-  }
-
-  /*
-  const handleSave = (trailId) => {
-    let trailsCopy = [];
-    for (let i=0; i< myTrails.length; i++) {
-      trailsCopy.push(myTrails[i]);
-    }
-    trailsCopy.push(trailId);
-    //setSave(trailsCopy);
-    if (myTrails.length===0) {
-      console.log('first save:'+trailId);
-      setSave([trailId]);
-    }
-    else {
-      setSave(myTrails => myTrails.concat(trailId));
-    }
-    console.log('save:'+trailId);
-    console.log(trailsCopy);
-    console.log(myTrails);
-  }
-
-  const handleUnsave = (trailId) => {
-    let trailsCopy = myTrails.filter((trail) =>
-      trail.id !== trailId
-    );
-    setSave([].concat(trailsCopy));
-    console.log('unsave:'+trailId);
-    console.log(trailsCopy);
-    console.log(myTrails);
-  }*/
-
-  const handleSavedTrails = (trailId, toSave) => {
-    //trail id number state variable
-    addTrail(trailId);
-    //save status of current trail
-    changeStatus(toSave);
-    updateCount(saveCount + 1);
-    /*
-    let trailCopy = allTrails.map((trail) => {
-      if(trail.id==trailId) {
-        trail.saved=toSave;
-      }
-      return trail;
-    })
-    trackStatus(trailCopy);
-    console.log(trailCopy);*/
-  };
-
-  React.useEffect(() => {
-    let setSaveCopy = allTrails.map((trail) => {
-      if(trail.id==newTrail) {
-        trail.saved=isSaved;
-      }
-      return trail;
-    });
-    trackStatus(setSaveCopy);
-
-    let filteredTrails = allTrails.filter((trail) =>
-      trail.hasOwnProperty('saved') && trail.saved
-    );
-
-    let trailIds = filteredTrails.map((trail) => {
-      return trail.id;
-    });
-    //console.log(trailIds);
-    setSave(trailIds);
-  }, [saveCount]);
-
-  /*
-  React.useEffect(() => {
-    if (isSaved) {
-      let trailsCopy = [];
-      for (let i=0; i< myTrails.length; i++) {
-        trailsCopy.push(myTrails[i]);
-      }
-      trailsCopy.push(newTrail);
-      setSave(trailsCopy);
-    }
-    else {
-      let trailsCopy = myTrails.filter((trail) =>
-        trail.id !== newTrail
-      );
-      setSave([].concat(trailsCopy));
-    }
-  }, [saveCount]);
-  */
+  //function which renders list of trails that fit search criteria or all trails when nothing is typed
+  const renderTrailList = (renderProps) => <TrailList {...renderProps} trails={trailResults} user={user} />
 
   const searchTyped = e => {
     setZipInp(e.target.value);
   };
-  React.useEffect(() => {
+  useEffect(() => {
     const trailResults = props.info.filter(trail =>
       (trail.zipcode+'').indexOf(''+trailZip) > -1
     );
     getTrailResults(trailResults);
-  }, [trailZip]);
+  }, [trailZip, props.info]);
 
   if (!user) {
     return (
@@ -214,7 +111,7 @@ function App(props) {
               <Switch>
                 <Route exact path="/" render={renderTrailList}/>
                 <Route path="/AboutTrail/:trailname"  render={() => <AboutTrail info={props.info}/>} />
-                <Route path="/SavedTrails" render={() => <SavedTrails info={props.info} saved={myTrails}  />}/>
+                <Route path="/SavedTrails" render={() => <SavedTrails info={props.info}  />}/>
                 <Redirect to="/"/>
               </Switch>
             </div>
@@ -232,16 +129,6 @@ function App(props) {
   }
 }
 
-
-/*
-        <nav class="trail">
-          <ol>
-              <li class="trail"><a href="landing.html"aria-label="Home Page"><span class="logo"></span>Home</a></li>             
-              <li class="trail">Search</li>
-
-
-*/
-
 function AboutNav() {
   return (
     <nav id="aboutLinks">      
@@ -250,38 +137,21 @@ function AboutNav() {
         <li><NavLink to="/SavedTrails" activeClassName="activeLink">Saved Trails</NavLink></li>
       </ul>
     </nav>
-
-
   );
 }
 
 
+/*
 export function TrailCard(props) {
   let imgSrc = 'img/'+props.trail.image;
   let imgAlt = props.trail.trailName + " image";
-  //console.log(props);
-  // states const for setting the save
-  /*
-  const saveTrail = (event) => {
-    //event.preventDefault();
-
-    const newUserObj = {
-      userId: props.currentUser.uid,
-      userName: props.currentUser.displayName,
-      time: firebase.database.ServerValue.TIMESTAMP,
-      savedTrail: props.trail
-    }
-
-    const trailsRef = firebase.database().ref('trails')
-    trailsRef.push(newUserObj)
-  }*/
   
   const [buttonText, setButtonText] = useState("Save"); //same as creating your state variable where "Next" is the default value for buttonText and setButtonText is the setter function for your state variable instead of setState
   const [redirectTo, setRedirectTo] = useState(undefined);
+  //const [bookedTrails, setBookedTrails] = useState([]);
 
   const handleClick = () => {
     setRedirectTo(props.trail.trailName);
-    //console.log("you clicked", props.trail.trailName); // for testing purposes
   }
 
   if(redirectTo !== undefined) {
@@ -291,36 +161,56 @@ export function TrailCard(props) {
   // When save button is clicked, toggles it visually
   // also changes the actual "saved" or not information  
     const handleSaveClick = () => {
-        let bookedTrails=[];
-        const savedTrailsRef = firebase.database().ref('trails')
-        let isTrailSaved = false;
-        let theKey = null;
-        if (savedTrailsRef!=null) {
-          savedTrailsRef.on('value', (snapshot) => {
-            const theTrailsObj = snapshot.val()
-            let trailsKeyArr = Object.keys(theTrailsObj);
-            let theTrailsArr = trailsKeyArr.map((key) => {
-              let trailKeyObj = theTrailsObj[key]
-              trailKeyObj.key = key
-              return trailKeyObj;
-            })
-            bookedTrails.concat(theTrailsArr);
-          })
-          
-          for(let i=0; i<bookedTrails.length; i++) {
-            if(bookedTrails[i].userId===props.currentUser.uid && bookedTrails[i].savedTrail.id==props.trail.id) {
-              isTrailSaved=true;
-              theKey = bookedTrails[i].key;
-            }
-          }
-        }
+      let bookedTrails=[];
+      const savedTrailsRef = firebase.database().ref('trails');
+      let isTrailSaved = false;
+      let theKey = null;
+        
+        //console.log('before ref');
 
+      savedTrailsRef.on('value', (snapshot) => {
+        const theTrailsObj = snapshot.val()
+            
+        if(savedTrailsRef!=null) {
+          console.log('trails ref has stuff');
+          let trailsKeyArr = Object.keys(theTrailsObj);
+          let theTrailsArr = trailsKeyArr.map((key) => {
+            let trailKeyObj = theTrailsObj[key];
+            trailKeyObj.key = key;
+            //console.log(trailKeyObj.userName);
+            return trailKeyObj;
+          });
+              
+          bookedTrails=[];
+          for(let i=0; i<theTrailsArr.length; i++) {
+            //console.log(theTrailsArr[i].savedTrail.trailName);
+            bookedTrails.push(theTrailsArr[i]);
+            //console.log("hello");
+          }
+        }            
+        //console.log('done putting stuff into list');
+      });
+          
+
+      //console.log('curr user: ');//+props.currentUser.uid);
+      //console.log('bookedTrails:'+bookedTrails.length);
+
+      //loop through database to check if the current trail has already been added
+      //if it has, delete it
+      //if it hasn't add it to the database
+      for(let i=0; i<bookedTrails.length; i++) {
+        console.log('looping through array');
+        console.log(bookedTrails[i].savedTrail.trailName);
+        if(bookedTrails[i].userId===props.currentUser.uid && bookedTrails[i].savedTrail.id===props.trail.id) {
+          isTrailSaved=true;
+          theKey = bookedTrails[i].key;
+        }
+      }     
 
       if (isTrailSaved) {//when you unsave a trail
         const trailDelete = firebase.database().ref('trails/'+theKey);
         setButtonText("Save");
         trailDelete.remove()
-        //let userRef = this.database.ref('users/' + userId);
       }
       else {//when you save a trail into saved trails
         const trailsRef = firebase.database().ref('trails');
@@ -335,6 +225,7 @@ export function TrailCard(props) {
       }
     }
 
+  //render individual card for one trail
   return (    
     <div key={props.trail.trailName} className="card">
       <img className="card-img-top" src={imgSrc} alt={imgAlt} />
@@ -346,14 +237,17 @@ export function TrailCard(props) {
       </div>
     </div>
   );
-}
+}*/
 
+/*
 export function TrailList(props) {
+  //map all trails into array of trail cards
   let deck = props.trails.map((trail) => {
-    let trailCard = <TrailCard key={trail.trailName} currentUser={props.user} trail={trail} saveCallback={props.saveCallback} statusCallback={props.statusCallback} />;
+    let trailCard = <TrailCard key={trail.trailName} currentUser={props.user} trail={trail} />;
     return trailCard;
   });
 
+  //insert list of cards into a div return
   return (
     <div id="trailList" className="col-12">  
       <h2>Trails to Visit in the Greater Seattle Area</h2>
@@ -363,6 +257,7 @@ export function TrailList(props) {
     </div>
   );
 }
+*/
 
 
 

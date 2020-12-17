@@ -1,5 +1,3 @@
-import _ from 'lodash';
-import { useParams } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import firebase from 'firebase/app';
 import 'firebase/auth';
@@ -27,7 +25,7 @@ function SavedTrails(props) {
     })
   }, [])
 
-  if(savedTrails.length==0) {
+  if(savedTrails.length===0) {
     return (
       <div>
         <h2>Here are your saved trails!</h2>
