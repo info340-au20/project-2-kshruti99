@@ -132,7 +132,7 @@ function App(props) {
       <header className="jumbotron jumbotron-fluid bg-dark text-white">
             <div className="container">
               <h1>Trail Finder and Traffic in Seattle</h1>
-              <p className="lead">If you are looking for a trail with low traffic, use our website
+              <p className="lead">Use our website
                   to get some suggestions for trails near you!
               </p>
             </div>
@@ -140,9 +140,8 @@ function App(props) {
     
       <main className="container">   
         <div className="row">
+          <AboutNav />
           <div className="col-3">
-            <AboutNav />
-            {/*<Search />*/}
             <input
               type="text"
               placeholder="Search"
