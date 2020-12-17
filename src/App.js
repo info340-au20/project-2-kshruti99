@@ -1,11 +1,31 @@
 
-import React, { useState } from 'react'; //import React Component
+import React, { useEffect, useState } from 'react'; //import React Component
 import{ Route , Switch, Link, Redirect, NavLink} from 'react-router-dom';
 import AboutTrail from './AboutTrail';
 import SavedTrails from './SavedTrails';
 import { Button } from 'reactstrap';
+import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/database';
 
 
+//FirebaseUI config
+const uiConfig = {
+  signInOptions: [
+    {
+      provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
+      requireDisplayName: true
+    },
+    firebase.auth.GoogleAuthProvider.PROVIDER_ID
+  ],
+  credentialHelper: 'none',
+  signInFlow: 'popup',
+  callbacks: {
+    // Avoid redirects after sign-in.
+    signInSuccessWithAuthResult: () => false
+  }
+};
 
 
 function App(props) {
@@ -20,6 +40,36 @@ function App(props) {
   const [isSaved, changeStatus] = React.useState(false);
   const [saveCount, updateCount] = React.useState(0);
   const [allTrails, trackStatus] = React.useState(props.info);
+
+  const [user, setUser] = useState(undefined);
+  const [errorMessage, setErrorMessage] = useState(undefined);
+  const [isLoading, setIsLoading] = useState(true);
+  React.useEffect(() => {
+    firebase.auth().onAuthStateChanged((firebaseUser) => {
+      if(firebaseUser) {
+        setUser(firebaseUser)
+        //setIsLoading(false)
+      }
+      else {
+        setUser(null)
+      }
+      //console.log("auth state has changed");
+    })
+  })
+
+  const handleSignOut = () => {
+    setErrorMessage(null); //clear any old errors
+    firebase.auth().signOut()
+  }
+
+  /*
+  if(isLoading) {
+    return (
+      <div className="text-center">
+        <i className="fa fa-spinner fa-spin fa-3x" aria-label="Connecting..."></i>
+      </div>
+    )
+  }*/
 
   const checkStatus = (id) => {
     for (let i=0; i< allTrails.length; i++) {
@@ -129,48 +179,60 @@ function App(props) {
     getTrailResults(trailResults);
   }, [trailZip]);
 
-  return (
-    <div>
-      <header className="jumbotron jumbotron-fluid bg-dark text-white">
-            <div className="container">
-              <h1>Trail Finder and Traffic in Seattle</h1>
-              <p className="lead">If you are looking for a trail with low traffic, use our website
-                  to get some suggestions for trails near you!
-              </p>
+
+  //let theAuth = firebase.auth()
+  if (!user) {
+    return (
+      <div className="container">
+        <h1>Sign Up!</h1>
+        <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
+      </div>
+    );
+  }
+  else {
+    return (
+      <div>
+        <header className="jumbotron jumbotron-fluid bg-dark text-white">
+          <div className="container">
+            <h1>Trail Finder and Traffic in Seattle</h1>
+            <p className="lead">If you are looking for a trail with low traffic, use our website
+                    to get some suggestions for trails near you!
+            </p>
             </div>
-      </header>
-    
-      <main className="container">   
-        <div className="row">
-          <div className="col-3">
-            <AboutNav />
-            {/*<Search />*/}
-            <input
-              type="text"
-              placeholder="Search"
-              value={trailZip}
-              onChange={searchTyped}
-            />
+        </header>
+      
+        <main className="container">   
+          <div className="row">
+            <div className="col-3">
+              <AboutNav />
+              {/*<Search />*/}
+              <input
+                type="text"
+                placeholder="Search"
+                value={trailZip}
+                onChange={searchTyped}
+              />
+            </div>
+            <div className="col-9">
+              <Switch>
+                <Route exact path="/" render={renderTrailList}/>
+                <Route path="/AboutTrail/:trailname"  render={() => <AboutTrail info={props.info}/>} />
+                <Route path="/SavedTrails" render={() => <SavedTrails info={props.info} saved={myTrails}  />}/>
+                <Redirect to="/"/>
+              </Switch>
+            </div>
           </div>
-          <div className="col-9">
-            <Switch>
-              <Route exact path="/" render={renderTrailList}/>
-              <Route path="/AboutTrail/:trailname"  render={() => <AboutTrail info={props.info}/>} />
-              <Route path="/SavedTrails" render={() => <SavedTrails info={props.info} saved={myTrails}  />}/>
-              <Redirect to="/"/>
-            </Switch>
-          </div>
-        </div>
-      </main>
+        </main>
 
 
-      <footer className="container">
-        <small>&#169; Website created by Midori Komi and Shruti Kompella </small>
-        <small>Data from <a href="https://www.seattle.gov/transportation/projects-and-programs/programs/bike-program/bike-counters?fbclid=IwAR3copSZvbf_CzzlbkfLm_q49LUp1y9djxjn6MyGpeKiZZlq5AAS2ZRdUhc"> Seattle Department of Transportation</a></small>
-        <small>Images from <a href ="https://unsplash.com/photos/Fv9fk47HBr4/"> Hannah Reding</a></small>
-      </footer>
-    </div>
-  );
+        <footer className="container">
+          <small>&#169; Website created by Midori Komi and Shruti Kompella </small>
+          <small>Data from <a href="https://www.seattle.gov/transportation/projects-and-programs/programs/bike-program/bike-counters?fbclid=IwAR3copSZvbf_CzzlbkfLm_q49LUp1y9djxjn6MyGpeKiZZlq5AAS2ZRdUhc"> Seattle Department of Transportation</a></small>
+          <small>Images from <a href ="https://unsplash.com/photos/Fv9fk47HBr4/"> Hannah Reding</a></small>
+        </footer>
+      </div>
+    );
+  }
 }
 
 
@@ -191,6 +253,18 @@ export function TrailCard(props) {
   let imgAlt = props.trail.trailName + " image";
   //console.log(props);
   // states const for setting the save
+  const saveTrail = (event) => {
+    //event.preventDefault();
+
+    const newUserObj = {
+      userId: props.currentUser.uid,
+      userName: props.currentUser.displayName,
+      time: firebase.database.ServerValue.TIMESTAMP
+    }
+
+    const trailsRef = firebase.database().ref('trails')
+    trailsRef.push(newUserObj)
+  }
   
   const [buttonText, setButtonText] = useState("Save"); //same as creating your state variable where "Next" is the default value for buttonText and setButtonText is the setter function for your state variable instead of setState
   const [redirectTo, setRedirectTo] = useState(undefined);

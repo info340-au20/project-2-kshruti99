@@ -10,14 +10,14 @@ import 'firebase/auth';
 import 'firebase/database';
 
 var firebaseConfig = {
-    apiKey: "AIzaSyBU3ipk7MteDrfWHvJKn2TKl-zKYmD3x34",
-    authDomain: "traillists.firebaseapp.com",
-    projectId: "traillists",
-    storageBucket: "traillists.appspot.com",
-    messagingSenderId: "678958262386",
-    appId: "1:678958262386:web:397385e537011771063aeb"
-  };
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
+  apiKey: "AIzaSyDaTBM1zaAm1nnvyAbzv_HVECXxu8vv__4",
+  authDomain: "saveusertrails.firebaseapp.com",
+  projectId: "saveusertrails",
+  storageBucket: "saveusertrails.appspot.com",
+  messagingSenderId: "560231256993",
+  appId: "1:560231256993:web:27448a99b71413b332f1e0"
+};
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
 
 ReactDOM.render(<BrowserRouter><App info={TRAIL_INFO} data={TRAIL_DATA} /></BrowserRouter>, document.getElementById('root'));
