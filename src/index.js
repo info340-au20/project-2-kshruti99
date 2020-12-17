@@ -21,3 +21,6 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 ReactDOM.render(<BrowserRouter><App info={TRAIL_INFO} data={TRAIL_DATA} /></BrowserRouter>, document.getElementById('root'));
+
+
+//fetch('data/mato.json')

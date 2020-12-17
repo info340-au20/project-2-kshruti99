@@ -30,7 +30,7 @@ const uiConfig = {
 
 function App(props) {
 
-  const renderTrailList = (renderProps) => <TrailList {...renderProps} trails={trailResults} saveCallback={handleSavedTrails} statusCallback={checkStatus} />
+  const renderTrailList = (renderProps) => <TrailList {...renderProps} trails={trailResults} saveCallback={handleSavedTrails} statusCallback={checkStatus} user={user} />
   
   const [trailZip, setZipInp] = React.useState("");
   const [trailResults, getTrailResults] = React.useState([]);
@@ -179,8 +179,6 @@ function App(props) {
     getTrailResults(trailResults);
   }, [trailZip]);
 
-
-  //let theAuth = firebase.auth()
   if (!user) {
     return (
       <div className="container">
@@ -195,23 +193,22 @@ function App(props) {
         <header className="jumbotron jumbotron-fluid bg-dark text-white">
           <div className="container">
             <h1>Trail Finder and Traffic in Seattle</h1>
-            <p className="lead">If you are looking for a trail with low traffic, use our website
-                    to get some suggestions for trails near you!
+            <p className="lead">Use our website
+                  to get some suggestions for trails near you!
             </p>
-            </div>
+          </div>
         </header>
       
         <main className="container">   
           <div className="row">
             <div className="col-3">
-              <AboutNav />
-              {/*<Search />*/}
               <input
                 type="text"
                 placeholder="Search"
                 value={trailZip}
                 onChange={searchTyped}
               />
+              <AboutNav />
             </div>
             <div className="col-9">
               <Switch>
@@ -227,7 +224,7 @@ function App(props) {
 
         <footer className="container">
           <small>&#169; Website created by Midori Komi and Shruti Kompella </small>
-          <small>Data from <a href="https://www.seattle.gov/transportation/projects-and-programs/programs/bike-program/bike-counters?fbclid=IwAR3copSZvbf_CzzlbkfLm_q49LUp1y9djxjn6MyGpeKiZZlq5AAS2ZRdUhc"> Seattle Department of Transportation</a></small>
+          <small> Data from <a href="https://www.seattle.gov/transportation/projects-and-programs/programs/bike-program/bike-counters?fbclid=IwAR3copSZvbf_CzzlbkfLm_q49LUp1y9djxjn6MyGpeKiZZlq5AAS2ZRdUhc"> Seattle Department of Transportation  </a></small>
           <small>Images from <a href ="https://unsplash.com/photos/Fv9fk47HBr4/"> Hannah Reding</a></small>
         </footer>
       </div>
@@ -236,14 +233,25 @@ function App(props) {
 }
 
 
+/*
+        <nav class="trail">
+          <ol>
+              <li class="trail"><a href="landing.html"aria-label="Home Page"><span class="logo"></span>Home</a></li>             
+              <li class="trail">Search</li>
+
+
+*/
+
 function AboutNav() {
   return (
     <nav id="aboutLinks">      
       <ul className="list-unstyled">
-        <li><NavLink exact to="/" activeClassName="activeLink">Back to Search</NavLink></li>
+        <li><NavLink exact to="/" activeClassName="activeLink">Go to Search</NavLink></li>
         <li><NavLink to="/SavedTrails" activeClassName="activeLink">Saved Trails</NavLink></li>
       </ul>
     </nav>
+
+
   );
 }
 
@@ -253,18 +261,20 @@ export function TrailCard(props) {
   let imgAlt = props.trail.trailName + " image";
   //console.log(props);
   // states const for setting the save
+  /*
   const saveTrail = (event) => {
     //event.preventDefault();
 
     const newUserObj = {
       userId: props.currentUser.uid,
       userName: props.currentUser.displayName,
-      time: firebase.database.ServerValue.TIMESTAMP
+      time: firebase.database.ServerValue.TIMESTAMP,
+      savedTrail: props.trail
     }
 
     const trailsRef = firebase.database().ref('trails')
     trailsRef.push(newUserObj)
-  }
+  }*/
   
   const [buttonText, setButtonText] = useState("Save"); //same as creating your state variable where "Next" is the default value for buttonText and setButtonText is the setter function for your state variable instead of setState
   const [redirectTo, setRedirectTo] = useState(undefined);
@@ -284,16 +294,24 @@ export function TrailCard(props) {
     const handleSaveClick = () => {
       if(buttonText === "Unsave" ) {
         console.log('unsave has been clicked');
-        props.saveCallback(props.trail.id, false);
+        //props.saveCallback(props.trail.id, false);
         setButtonText("Save");
       } else {
         console.log('save has been clicked');
-        props.saveCallback(props.trail.id, true);
+        //props.saveCallback(props.trail.id, true);
         setButtonText("Unsave");
       }
-      
-      console.log("you handled the save click")
-      console.log(props.trail.favorite);
+      const newUserObj = {
+        userId: props.currentUser.uid,
+        userName: props.currentUser.displayName,
+        time: firebase.database.ServerValue.TIMESTAMP,
+        savedTrail: props.trail,
+      }
+  
+      const trailsRef = firebase.database().ref('trails')
+      trailsRef.push(newUserObj)
+      //console.log("you handled the save click")
+      //console.log(props.trail.favorite);
     }
 
     /*
@@ -329,12 +347,12 @@ export function TrailCard(props) {
 
 export function TrailList(props) {
   let deck = props.trails.map((trail) => {
-    let trailCard = <TrailCard key={trail.trailName} trail={trail} saveCallback={props.saveCallback} statusCallback={props.statusCallback} />;
+    let trailCard = <TrailCard key={trail.trailName} currentUser={props.user} trail={trail} saveCallback={props.saveCallback} statusCallback={props.statusCallback} />;
     return trailCard;
   });
 
   return (
-    <div id="trailList" className="col-9">  
+    <div id="trailList" className="col-12">  
       <h2>Trails to Visit in the Greater Seattle Area</h2>
       <div className="card-deck">
         {deck}
