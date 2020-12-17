@@ -6,6 +6,8 @@ import './index.css';
 import TRAIL_DATA from './data/trail_data.json';
 import TRAIL_INFO from './data/trail_info.json';
 import firebase from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/database';
 
 var firebaseConfig = {
     apiKey: "AIzaSyBU3ipk7MteDrfWHvJKn2TKl-zKYmD3x34",

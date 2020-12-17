@@ -64,7 +64,9 @@ function App(props) {
   }*/
 
   const handleSavedTrails = (trailId, toSave) => {
+    //trail id number state variable
     addTrail(trailId);
+    //save status of current trail
     changeStatus(toSave);
     updateCount(saveCount + 1);
     /*
@@ -205,7 +207,7 @@ export function TrailCard(props) {
   // When save button is clicked, toggles it visually
   // also changes the actual "saved" or not information
   
-    /*const handleSaveClick = () => {
+    const handleSaveClick = () => {
       if(buttonText === "Unsave" ) {
         console.log('unsave has been clicked');
         props.saveCallback(props.trail.id, false);
@@ -218,10 +220,11 @@ export function TrailCard(props) {
       
       console.log("you handled the save click")
       console.log(props.trail.favorite);
-    }*/
+    }
 
+    /*
     const handleSaveClick = () => {
-      console.log(props.statusCallback(props.trail.id));
+      //console.log(props.statusCallback(props.trail.id));
       //if(props.statusCallback(props.trail.id)) {
       if(props.trail.hasOwnProperty('saved') && props.trail.saved) {
         console.log('save has been clicked');
@@ -234,7 +237,7 @@ export function TrailCard(props) {
         console.log(props.trail.saved);
         setButtonText("Save");
       }
-    }
+    }*/
 
 
   return (    
