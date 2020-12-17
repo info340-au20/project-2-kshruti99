@@ -163,7 +163,7 @@ function App(props) {
 
       <footer className="container">
         <small>&#169; Website created by Midori Komi and Shruti Kompella </small>
-        <small>Data from <a href="https://www.seattle.gov/transportation/projects-and-programs/programs/bike-program/bike-counters?fbclid=IwAR3copSZvbf_CzzlbkfLm_q49LUp1y9djxjn6MyGpeKiZZlq5AAS2ZRdUhc"> Seattle Department of Transportation</a></small>
+        <small> Data from <a href="https://www.seattle.gov/transportation/projects-and-programs/programs/bike-program/bike-counters?fbclid=IwAR3copSZvbf_CzzlbkfLm_q49LUp1y9djxjn6MyGpeKiZZlq5AAS2ZRdUhc"> Seattle Department of Transportation  </a></small>
         <small>Images from <a href ="https://unsplash.com/photos/Fv9fk47HBr4/"> Hannah Reding</a></small>
       </footer>
     </div>
@@ -171,14 +171,25 @@ function App(props) {
 }
 
 
+/*
+        <nav class="trail">
+          <ol>
+              <li class="trail"><a href="landing.html"aria-label="Home Page"><span class="logo"></span>Home</a></li>             
+              <li class="trail">Search</li>
+
+
+*/
+
 function AboutNav() {
   return (
     <nav id="aboutLinks">      
       <ul className="list-unstyled">
-        <li><NavLink exact to="/" activeClassName="activeLink">Back to Search</NavLink></li>
+        <li><NavLink exact to="/" activeClassName="activeLink">Go to Search</NavLink></li>
         <li><NavLink to="/SavedTrails" activeClassName="activeLink">Saved Trails</NavLink></li>
       </ul>
     </nav>
+
+
   );
 }
 
