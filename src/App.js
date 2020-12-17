@@ -10,21 +10,112 @@ import { Button } from 'reactstrap';
 
 function App(props) {
 
-  const renderTrailList = (renderProps) => <TrailList {...renderProps} trails={trailResults} />
+  const renderTrailList = (renderProps) => <TrailList {...renderProps} trails={trailResults} saveCallback={handleSavedTrails} statusCallback={checkStatus} />
   
   const [trailZip, setZipInp] = React.useState("");
   const [trailResults, getTrailResults] = React.useState([]);
-  // setting up initial save button
+
+  const [myTrails, setSave] = React.useState([]);
+  const [newTrail, addTrail] = React.useState(0);
+  const [isSaved, changeStatus] = React.useState(false);
+  const [saveCount, updateCount] = React.useState(0);
+  const [allTrails, trackStatus] = React.useState(props.info);
+
+  const checkStatus = (id) => {
+    for (let i=0; i< allTrails.length; i++) {
+      if(allTrails[i].id==id) {
+        if (allTrails[i].hasOwnProperty('saved'))
+          return(allTrails[i].saved);
+        else
+          return(false);
+      }
+    }
+    return false;
+  }
 
   /*
-  let initSaveTrails = props.info.map(trail => {
-    trail.favorite="Save";
-    return trail;
-  })*/
+  const handleSave = (trailId) => {
+    let trailsCopy = [];
+    for (let i=0; i< myTrails.length; i++) {
+      trailsCopy.push(myTrails[i]);
+    }
+    trailsCopy.push(trailId);
+    //setSave(trailsCopy);
+    if (myTrails.length===0) {
+      console.log('first save:'+trailId);
+      setSave([trailId]);
+    }
+    else {
+      setSave(myTrails => myTrails.concat(trailId));
+    }
+    console.log('save:'+trailId);
+    console.log(trailsCopy);
+    console.log(myTrails);
+  }
 
-  const [myTrails, setSave] = useState([]);
-  //setSave(modifiedTrails);
-  //console.log(props.info);
+  const handleUnsave = (trailId) => {
+    let trailsCopy = myTrails.filter((trail) =>
+      trail.id !== trailId
+    );
+    setSave([].concat(trailsCopy));
+    console.log('unsave:'+trailId);
+    console.log(trailsCopy);
+    console.log(myTrails);
+  }*/
+
+  const handleSavedTrails = (trailId, toSave) => {
+    addTrail(trailId);
+    changeStatus(toSave);
+    updateCount(saveCount + 1);
+    /*
+    let trailCopy = allTrails.map((trail) => {
+      if(trail.id==trailId) {
+        trail.saved=toSave;
+      }
+      return trail;
+    })
+    trackStatus(trailCopy);
+    console.log(trailCopy);*/
+  };
+
+  React.useEffect(() => {
+    let setSaveCopy = allTrails.map((trail) => {
+      if(trail.id==newTrail) {
+        trail.saved=isSaved;
+      }
+      return trail;
+    });
+    trackStatus(setSaveCopy);
+
+    let filteredTrails = allTrails.filter((trail) =>
+      trail.hasOwnProperty('saved') && trail.saved
+    );
+
+    let trailIds = filteredTrails.map((trail) => {
+      return trail.id;
+    });
+    //console.log(trailIds);
+    setSave(trailIds);
+  }, [saveCount]);
+
+  /*
+  React.useEffect(() => {
+    if (isSaved) {
+      let trailsCopy = [];
+      for (let i=0; i< myTrails.length; i++) {
+        trailsCopy.push(myTrails[i]);
+      }
+      trailsCopy.push(newTrail);
+      setSave(trailsCopy);
+    }
+    else {
+      let trailsCopy = myTrails.filter((trail) =>
+        trail.id !== newTrail
+      );
+      setSave([].concat(trailsCopy));
+    }
+  }, [saveCount]);
+  */
 
   const searchTyped = e => {
     setZipInp(e.target.value);
@@ -38,10 +129,10 @@ function App(props) {
 
   return (
     <div>
-      <header class="jumbotron jumbotron-fluid bg-dark text-white">
-            <div class="container">
+      <header className="jumbotron jumbotron-fluid bg-dark text-white">
+            <div className="container">
               <h1>Trail Finder and Traffic in Seattle</h1>
-              <p class="lead">If you are looking for a trail with low traffic, use our website
+              <p className="lead">If you are looking for a trail with low traffic, use our website
                   to get some suggestions for trails near you!
               </p>
             </div>
@@ -63,7 +154,7 @@ function App(props) {
             <Switch>
               <Route exact path="/" render={renderTrailList}/>
               <Route path="/AboutTrail/:trailname"  render={() => <AboutTrail info={props.info}/>} />
-              <Route path="/SavedTrails" render={() => <SavedTrails info={props.info}/>}/>
+              <Route path="/SavedTrails" render={() => <SavedTrails info={props.info} saved={myTrails}  />}/>
               <Redirect to="/"/>
             </Switch>
           </div>
@@ -111,39 +202,38 @@ export function TrailCard(props) {
     return <Redirect push to={"/AboutTrail/" + redirectTo }/>
   }
 
-
-/*  -----------------------------------------------------
-  const [pets, setPets] = useState(props.pets);
-  let breedList = [];
-  for(var petNum in props.pets) {
-    if(!breedList.includes(props.pets[petNum].breed)) {
-      breedList.push(props.pets[petNum].breed);
-    }  
-  }
-
-  // callback function for 9
-  const handleAdopt = (name) => {
-    //creating the copy
-    let modifiedPets = pets.map(pet => {
-      if (pet.name == name) {
-        pet.adopted = true;
-      }
-      return pet;
-    })
-    // updating the array
-     setPets(modifiedPets);
-  }*/
   // When save button is clicked, toggles it visually
   // also changes the actual "saved" or not information
-    const handleSaveClick = () => {
+  
+    /*const handleSaveClick = () => {
       if(buttonText === "Unsave" ) {
+        console.log('unsave has been clicked');
+        props.saveCallback(props.trail.id, false);
         setButtonText("Save");
       } else {
+        console.log('save has been clicked');
+        props.saveCallback(props.trail.id, true);
         setButtonText("Unsave");
       }
-      /*
+      
       console.log("you handled the save click")
-      console.log(props.trail.favorite);*/
+      console.log(props.trail.favorite);
+    }*/
+
+    const handleSaveClick = () => {
+      console.log(props.statusCallback(props.trail.id));
+      //if(props.statusCallback(props.trail.id)) {
+      if(props.trail.hasOwnProperty('saved') && props.trail.saved) {
+        console.log('save has been clicked');
+        props.saveCallback(props.trail.id, true);
+        console.log(props.trail.saved);
+        setButtonText("Unsave");        
+      } else {
+        console.log('unsave has been clicked');
+        props.saveCallback(props.trail.id, false);
+        console.log(props.trail.saved);
+        setButtonText("Save");
+      }
     }
 
 
@@ -162,7 +252,7 @@ export function TrailCard(props) {
 
 export function TrailList(props) {
   let deck = props.trails.map((trail) => {
-    let trailCard = <TrailCard trail={trail} />;
+    let trailCard = <TrailCard key={trail.trailName} trail={trail} saveCallback={props.saveCallback} statusCallback={props.statusCallback} />;
     return trailCard;
   });
 
