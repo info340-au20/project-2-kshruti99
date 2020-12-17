@@ -139,8 +139,8 @@ function App(props) {
       </header>
     
       <main className="container">   
+      
         <div className="row">
-          <AboutNav />
           <div className="col-3">
             <input
               type="text"
@@ -148,6 +148,7 @@ function App(props) {
               value={trailZip}
               onChange={searchTyped}
             />
+            <AboutNav />
           </div>
           <div className="col-9">
             <Switch>
@@ -267,7 +268,7 @@ export function TrailList(props) {
   });
 
   return (
-    <div id="trailList" className="col-9">  
+    <div id="trailList" className="col-12">  
       <h2>Trails to Visit in the Greater Seattle Area</h2>
       <div className="card-deck">
         {deck}
