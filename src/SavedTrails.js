@@ -14,7 +14,7 @@ function SavedTrails(props) {
     const savedTrailsRef = firebase.database().ref('trails')
     savedTrailsRef.on('value', (snapshot) => {
       const theTrailsObj = snapshot.val()
-      if(savedTrailsRef==null) {
+      if(savedTrailsRef!=null) {
         let trailsKeyArr = Object.keys(theTrailsObj);
         let theTrailsArr = trailsKeyArr.map((key) => {
           let trailKeyObj = theTrailsObj[key]
