@@ -289,48 +289,51 @@ export function TrailCard(props) {
   }
 
   // When save button is clicked, toggles it visually
-  // also changes the actual "saved" or not information
-  
+  // also changes the actual "saved" or not information  
     const handleSaveClick = () => {
-      if(buttonText === "Unsave" ) {
-        console.log('unsave has been clicked');
-        //props.saveCallback(props.trail.id, false);
+        let bookedTrails=[];
+        const savedTrailsRef = firebase.database().ref('trails')
+        let isTrailSaved = false;
+        let theKey = null;
+        if (savedTrailsRef!=null) {
+          savedTrailsRef.on('value', (snapshot) => {
+            const theTrailsObj = snapshot.val()
+            let trailsKeyArr = Object.keys(theTrailsObj);
+            let theTrailsArr = trailsKeyArr.map((key) => {
+              let trailKeyObj = theTrailsObj[key]
+              trailKeyObj.key = key
+              return trailKeyObj;
+            })
+            bookedTrails.concat(theTrailsArr);
+          })
+          
+          for(let i=0; i<bookedTrails.length; i++) {
+            if(bookedTrails[i].userId===props.currentUser.uid && bookedTrails[i].savedTrail.id==props.trail.id) {
+              isTrailSaved=true;
+              theKey = bookedTrails[i].key;
+            }
+          }
+        }
+
+
+      if (isTrailSaved) {//when you unsave a trail
+        const trailDelete = firebase.database().ref('trails/'+theKey);
         setButtonText("Save");
-      } else {
-        console.log('save has been clicked');
-        //props.saveCallback(props.trail.id, true);
+        trailDelete.remove()
+        //let userRef = this.database.ref('users/' + userId);
+      }
+      else {//when you save a trail into saved trails
+        const trailsRef = firebase.database().ref('trails');
         setButtonText("Unsave");
+        const newUserObj = {
+          userId: props.currentUser.uid,
+          userName: props.currentUser.displayName,
+          time: firebase.database.ServerValue.TIMESTAMP,
+          savedTrail: props.trail,
+        }
+        trailsRef.push(newUserObj)
       }
-      const newUserObj = {
-        userId: props.currentUser.uid,
-        userName: props.currentUser.displayName,
-        time: firebase.database.ServerValue.TIMESTAMP,
-        savedTrail: props.trail,
-      }
-  
-      const trailsRef = firebase.database().ref('trails')
-      trailsRef.push(newUserObj)
-      //console.log("you handled the save click")
-      //console.log(props.trail.favorite);
     }
-
-    /*
-    const handleSaveClick = () => {
-      //console.log(props.statusCallback(props.trail.id));
-      //if(props.statusCallback(props.trail.id)) {
-      if(props.trail.hasOwnProperty('saved') && props.trail.saved) {
-        console.log('save has been clicked');
-        props.saveCallback(props.trail.id, true);
-        console.log(props.trail.saved);
-        setButtonText("Unsave");        
-      } else {
-        console.log('unsave has been clicked');
-        props.saveCallback(props.trail.id, false);
-        console.log(props.trail.saved);
-        setButtonText("Save");
-      }
-    }*/
-
 
   return (    
     <div key={props.trail.trailName} className="card">
