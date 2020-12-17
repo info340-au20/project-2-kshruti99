@@ -49,7 +49,9 @@ function SavedTrails(props) {
     })
   }, [])
 
-  let cardDeck = savedTrails.map((trail) => {
+  let cardDeck = savedTrails.map((trailObj) => {
+    //console.log(trail);
+    let trail = trailObj.savedTrail;
     let imgSrc = 'img/'+trail.image;
     let imgAlt = trail.trailName + " image";
     return (    
