@@ -11,6 +11,32 @@ function TrailCard(props) {
     const [redirectTo, setRedirectTo] = useState(undefined);
     const [bookedTrails, setBookedTrails] = useState([]);
 
+
+//----------------------setting the initial button text correctly------------------------
+    let isTrailSaved = false;
+
+    console.log('curr user: ');//+props.currentUser.uid);
+    console.log('bookedTrails:'+bookedTrails.length);
+
+    for(let i=0; i<bookedTrails.length; i++) {
+      if(bookedTrails[i].userId===props.currentUser.uid && bookedTrails[i].savedTrail.id===props.trail.id) {
+        isTrailSaved=true;
+      }
+    }     
+
+    if (isTrailSaved) {
+      setButtonText("Unsave");
+    }
+    else {
+      setButtonText("Save");
+    }
+//------------------------------------
+
+
+
+
+
+
     useEffect(() => {    
         const savedTrailsRef = firebase.database().ref('trails')
         savedTrailsRef.on('value', (snapshot) => {
