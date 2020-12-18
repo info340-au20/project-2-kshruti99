@@ -19,11 +19,14 @@ function SavedTrails(props) {
           trailKeyObj.key = key
           return trailKeyObj;
         })
-        setSavedTrails(theTrailsArr);
+        let myTrails = theTrailsArr.filter((oneSavedTrail) => 
+          oneSavedTrail.userId===props.currentUser.uid
+        );
+        setSavedTrails(myTrails);
       }
       else setSavedTrails([]);
     })
-  }, [])
+  }, [props.currentUser.uid])
 
   if(savedTrails.length===0) {
     return (

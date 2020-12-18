@@ -118,7 +118,7 @@ function App(props) {
               <Switch>
                 <Route exact path="/" render={renderTrailList}/>
                 <Route path="/AboutTrail/:trailname"  render={() => <AboutTrail info={props.info}/>} />
-                <Route path="/SavedTrails" render={() => <SavedTrails info={props.info}  />}/>
+                <Route path="/SavedTrails" render={() => <SavedTrails info={props.info} currentUser={user}  />}/>
                 <Redirect to="/"/>
               </Switch>
             </div>

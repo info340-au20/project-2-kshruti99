@@ -42,7 +42,7 @@ function TrailCard(props) {
             setButtonText("save");
           }
         });
-    }, [])
+    }, [props.currentUser.uid, props.trail.id])
   
     const handleClick = () => {
       setRedirectTo(props.trail.trailName);
