@@ -1,10 +1,11 @@
 
 import React, { useEffect, useState } from 'react'; //import React Component
-import{ Route , Switch, Redirect, NavLink} from 'react-router-dom';
+import{ Route , Switch, Redirect} from 'react-router-dom';
 import AboutTrail from './AboutTrail';
 import SavedTrails from './SavedTrails';
 import TrailList from './TrailList';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+import AboutNav from './AboutNav';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
@@ -128,137 +129,5 @@ function App(props) {
     );
   }
 }
-
-function AboutNav() {
-  return (
-    <nav id="aboutLinks">      
-      <ul className="list-unstyled">
-        <li><NavLink exact to="/" activeClassName="activeLink">Go to Search</NavLink></li>
-        <li><NavLink to="/SavedTrails" activeClassName="activeLink">Saved Trails</NavLink></li>
-      </ul>
-    </nav>
-  );
-}
-
-
-/*
-export function TrailCard(props) {
-  let imgSrc = 'img/'+props.trail.image;
-  let imgAlt = props.trail.trailName + " image";
-  
-  const [buttonText, setButtonText] = useState("Save"); //same as creating your state variable where "Next" is the default value for buttonText and setButtonText is the setter function for your state variable instead of setState
-  const [redirectTo, setRedirectTo] = useState(undefined);
-  //const [bookedTrails, setBookedTrails] = useState([]);
-
-  const handleClick = () => {
-    setRedirectTo(props.trail.trailName);
-  }
-
-  if(redirectTo !== undefined) {
-    return <Redirect push to={"/AboutTrail/" + redirectTo }/>
-  }
-
-  // When save button is clicked, toggles it visually
-  // also changes the actual "saved" or not information  
-    const handleSaveClick = () => {
-      let bookedTrails=[];
-      const savedTrailsRef = firebase.database().ref('trails');
-      let isTrailSaved = false;
-      let theKey = null;
-        
-        //console.log('before ref');
-
-      savedTrailsRef.on('value', (snapshot) => {
-        const theTrailsObj = snapshot.val()
-            
-        if(savedTrailsRef!=null) {
-          console.log('trails ref has stuff');
-          let trailsKeyArr = Object.keys(theTrailsObj);
-          let theTrailsArr = trailsKeyArr.map((key) => {
-            let trailKeyObj = theTrailsObj[key];
-            trailKeyObj.key = key;
-            //console.log(trailKeyObj.userName);
-            return trailKeyObj;
-          });
-              
-          bookedTrails=[];
-          for(let i=0; i<theTrailsArr.length; i++) {
-            //console.log(theTrailsArr[i].savedTrail.trailName);
-            bookedTrails.push(theTrailsArr[i]);
-            //console.log("hello");
-          }
-        }            
-        //console.log('done putting stuff into list');
-      });
-          
-
-      //console.log('curr user: ');//+props.currentUser.uid);
-      //console.log('bookedTrails:'+bookedTrails.length);
-
-      //loop through database to check if the current trail has already been added
-      //if it has, delete it
-      //if it hasn't add it to the database
-      for(let i=0; i<bookedTrails.length; i++) {
-        console.log('looping through array');
-        console.log(bookedTrails[i].savedTrail.trailName);
-        if(bookedTrails[i].userId===props.currentUser.uid && bookedTrails[i].savedTrail.id===props.trail.id) {
-          isTrailSaved=true;
-          theKey = bookedTrails[i].key;
-        }
-      }     
-
-      if (isTrailSaved) {//when you unsave a trail
-        const trailDelete = firebase.database().ref('trails/'+theKey);
-        setButtonText("Save");
-        trailDelete.remove()
-      }
-      else {//when you save a trail into saved trails
-        const trailsRef = firebase.database().ref('trails');
-        setButtonText("Unsave");
-        const newUserObj = {
-          userId: props.currentUser.uid,
-          userName: props.currentUser.displayName,
-          time: firebase.database.ServerValue.TIMESTAMP,
-          savedTrail: props.trail,
-        }
-        trailsRef.push(newUserObj)
-      }
-    }
-
-  //render individual card for one trail
-  return (    
-    <div key={props.trail.trailName} className="card">
-      <img className="card-img-top" src={imgSrc} alt={imgAlt} />
-      <div className="card-body">
-        <h3 className="card-title">{props.trail.trailName}</h3>
-        <p className="card-text">{props.trail.address}</p>
-        <Button onClick = {handleClick} size="medium" color="primary">More Information</Button>
-        <Button onClick = {handleSaveClick} size="medium" color="primary">{buttonText}</Button>
-      </div>
-    </div>
-  );
-}*/
-
-/*
-export function TrailList(props) {
-  //map all trails into array of trail cards
-  let deck = props.trails.map((trail) => {
-    let trailCard = <TrailCard key={trail.trailName} currentUser={props.user} trail={trail} />;
-    return trailCard;
-  });
-
-  //insert list of cards into a div return
-  return (
-    <div id="trailList" className="col-12">  
-      <h2>Trails to Visit in the Greater Seattle Area</h2>
-      <div className="card-deck">
-        {deck}
-      </div>
-    </div>
-  );
-}
-*/
-
-
 
 export default App;

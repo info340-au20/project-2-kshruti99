@@ -1,4 +1,4 @@
-import React, {useState } from 'react'; //import React Component
+import React, {useEffect, useState } from 'react'; //import React Component
 import{Redirect} from 'react-router-dom';
 import { Button } from 'reactstrap';
 import firebase from 'firebase/app';
@@ -9,7 +9,24 @@ function TrailCard(props) {
     
     const [buttonText, setButtonText] = useState("Save"); //same as creating your state variable where "Next" is the default value for buttonText and setButtonText is the setter function for your state variable instead of setState
     const [redirectTo, setRedirectTo] = useState(undefined);
-    //const [bookedTrails, setBookedTrails] = useState([]);
+    const [bookedTrails, setBookedTrails] = useState([]);
+
+    useEffect(() => {    
+        const savedTrailsRef = firebase.database().ref('trails')
+        savedTrailsRef.on('value', (snapshot) => {
+          const theTrailsObj = snapshot.val()
+          if(theTrailsObj!=null) {
+            let trailsKeyArr = Object.keys(theTrailsObj);
+            let theTrailsArr = trailsKeyArr.map((key) => {
+              let trailKeyObj = theTrailsObj[key]
+              trailKeyObj.key = key
+              return trailKeyObj;
+            })
+            setBookedTrails(theTrailsArr);
+          }
+          else setBookedTrails([]);
+        })
+      }, [])
   
     const handleClick = () => {
       setRedirectTo(props.trail.trailName);
@@ -21,15 +38,13 @@ function TrailCard(props) {
   
     // When save button is clicked, toggles it visually
     // also changes the actual "saved" or not information  
-      const handleSaveClick = () => {
-        let bookedTrails=[];
-        const savedTrailsRef = firebase.database().ref('trails');
+    const handleSaveClick = () => {
         let isTrailSaved = false;
         let theKey = null;
           
-          //console.log('before ref');
+        console.log('before ref when clicked');
   
-        savedTrailsRef.on('value', (snapshot) => {
+        /* savedTrailsRef.on('value', (snapshot) => {
           const theTrailsObj = snapshot.val()
               
           if(savedTrailsRef!=null) {
@@ -50,11 +65,11 @@ function TrailCard(props) {
             }
           }            
           //console.log('done putting stuff into list');
-        });
+        }); */
             
   
-        //console.log('curr user: ');//+props.currentUser.uid);
-        //console.log('bookedTrails:'+bookedTrails.length);
+        console.log('curr user: ');//+props.currentUser.uid);
+        console.log('bookedTrails:'+bookedTrails.length);
   
         //loop through database to check if the current trail has already been added
         //if it has, delete it
@@ -70,6 +85,7 @@ function TrailCard(props) {
   
         if (isTrailSaved) {//when you unsave a trail
           const trailDelete = firebase.database().ref('trails/'+theKey);
+          console.log('unsave the trail: '+trailDelete);
           setButtonText("Save");
           trailDelete.remove()
         }
