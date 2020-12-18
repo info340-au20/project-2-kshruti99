@@ -94,7 +94,7 @@ function App(props) {
   else {
     return (
       <div>
-        <header className="jumbotron jumbotron-fluid bg-dark text-white">
+        <header className="jumbotron jumbotron-fluid bg-dark text-white" aria-label="fall leaves trail image">
           <div className="container">
             <h1>Trail Finder and Traffic in Seattle</h1>
             <p className="lead">Use our website
@@ -111,6 +111,7 @@ function App(props) {
                 placeholder="Search"
                 value={trailZip}
                 onChange={searchTyped}
+                aria-label="search bar for zipcode"
               />
               <AboutNav signOutCallback={handleSignOut} />
             </div>

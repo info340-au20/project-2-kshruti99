@@ -99,7 +99,7 @@ function TrailCard(props) {
           <h3 className="card-title">{props.trail.trailName}</h3>
           <p className="card-text">{props.trail.address}</p>
           <Button onClick = {handleClick} size="medium" color="primary">More Information</Button>
-          <Button onClick = {handleSaveClick} size="medium" color="primary">{buttonText}</Button>
+          <Button onClick = {handleSaveClick} size="medium" color="primary" aria-label={buttonText+' button'}>{buttonText}</Button>
         </div>
       </div>
     );
