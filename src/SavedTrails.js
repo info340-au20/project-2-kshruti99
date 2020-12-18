@@ -42,7 +42,7 @@ function SavedTrails(props) {
     let imgSrc = 'img/'+trail.image;
     let imgAlt = trail.trailName + " image";
     return (    
-      <div key={trail.key} className="card">
+      <div key={trail.trailName} className="card">
         <img className="card-img-top" src={imgSrc} alt={imgAlt} />
         <div className="card-body">
           <h3 className="card-title">{trail.trailName}</h3>

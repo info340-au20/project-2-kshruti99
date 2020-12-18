@@ -61,12 +61,12 @@ function App(props) {
     getTrailResults(trailResults);
   }, [trailZip, props.info]);
 
-  /*spinner and handling sign out with errors
+  //spinner and handling sign out with errors
   const handleSignOut = () => {
-    setErrorMessage(null); //clear any old errors
+    //setErrorMessage(null); //clear any old errors
     firebase.auth().signOut()
   }
-  */
+  
 
   if(isLoading) {
     return (
@@ -112,7 +112,7 @@ function App(props) {
                 value={trailZip}
                 onChange={searchTyped}
               />
-              <AboutNav />
+              <AboutNav signOutCallback={handleSignOut} />
             </div>
             <div className="col-9">
               <Switch>
