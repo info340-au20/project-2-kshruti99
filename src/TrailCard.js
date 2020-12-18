@@ -41,7 +41,10 @@ function TrailCard(props) {
             setBookedTrails([]);
             setButtonText("save");
           }
-        });
+        })
+        return function cleanup() {
+            savedTrailsRef.off();
+        }
     }, [props.currentUser.uid, props.trail.id])
   
     const handleClick = () => {

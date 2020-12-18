@@ -10,6 +10,7 @@ function SavedTrails(props) {
   
   useEffect(() => {    
     const savedTrailsRef = firebase.database().ref('trails')
+    
     savedTrailsRef.on('value', (snapshot) => {
       const theTrailsObj = snapshot.val()
       if(theTrailsObj!=null) {
@@ -26,6 +27,9 @@ function SavedTrails(props) {
       }
       else setSavedTrails([]);
     })
+    return function cleanup() {
+      savedTrailsRef.off();
+    }
   }, [props.currentUser.uid])
 
   if(savedTrails.length===0) {
