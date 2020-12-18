@@ -12,17 +12,7 @@ function TrailCard(props) {
     const [bookedTrails, setBookedTrails] = useState([]);
 
 
-
-
-
-
-
-
     useEffect(() => {    
-
-        
-
-
         const savedTrailsRef = firebase.database().ref('trails')
         savedTrailsRef.on('value', (snapshot) => {
           const theTrailsObj = snapshot.val()
@@ -35,31 +25,24 @@ function TrailCard(props) {
             })
             setBookedTrails(theTrailsArr);
 
-           
+            // set the initial button values
             let isTrailSaved = false;
             for(let i=0; i<theTrailsArr.length; i++) {
-              console.log('looping through array');
               if(theTrailsArr[i].userId===props.currentUser.uid && theTrailsArr[i].savedTrail.id===props.trail.id) {
                 setButtonText("unsave");
                 isTrailSaved = true;
-        
               }
             }  
             if(!isTrailSaved) {
               setButtonText("save");
             }
-
           }
+
           else {
             setBookedTrails([]);
             setButtonText("save");
           }
-
         });
-
-
-
-
       }, [])
   
     const handleClick = () => {
@@ -76,42 +59,12 @@ function TrailCard(props) {
     const handleSaveClick = () => {
         let isTrailSaved = false;
         let theKey = null;
-          
-        console.log('before ref when clicked');
-  
-        /* savedTrailsRef.on('value', (snapshot) => {
-          const theTrailsObj = snapshot.val()
-              
-          if(savedTrailsRef!=null) {
-            console.log('trails ref has stuff');
-            let trailsKeyArr = Object.keys(theTrailsObj);
-            let theTrailsArr = trailsKeyArr.map((key) => {
-              let trailKeyObj = theTrailsObj[key];
-              trailKeyObj.key = key;
-              //console.log(trailKeyObj.userName);
-              return trailKeyObj;
-            });
-                
-            bookedTrails=[];
-            for(let i=0; i<theTrailsArr.length; i++) {
-              //console.log(theTrailsArr[i].savedTrail.trailName);
-              bookedTrails.push(theTrailsArr[i]);
-              //console.log("hello");
-            }
-          }            
-          //console.log('done putting stuff into list');
-        }); */
-            
-  
-        console.log('curr user: ');//+props.currentUser.uid);
-        console.log('bookedTrails:'+bookedTrails.length);
+
   
         //loop through database to check if the current trail has already been added
         //if it has, delete it
         //if it hasn't add it to the database
         for(let i=0; i<bookedTrails.length; i++) {
-          console.log('looping through array');
-          console.log(bookedTrails[i].savedTrail.trailName);
           if(bookedTrails[i].userId===props.currentUser.uid && bookedTrails[i].savedTrail.id===props.trail.id) {
             isTrailSaved=true;
             theKey = bookedTrails[i].key;
@@ -120,7 +73,6 @@ function TrailCard(props) {
   
         if (isTrailSaved) {//when you unsave a trail
           const trailDelete = firebase.database().ref('trails/'+theKey);
-          console.log('unsave the trail: '+trailDelete);
           setButtonText("Save");
           trailDelete.remove()
         }
