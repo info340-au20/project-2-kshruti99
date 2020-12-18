@@ -26,7 +26,7 @@ function TrailCard(props) {
           }
           else setBookedTrails([]);
         })
-      }, [])
+    }, []);
   
     const handleClick = () => {
       setRedirectTo(props.trail.trailName);

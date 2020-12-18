@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react'; //import React Component
 import{ Route , Switch, Redirect} from 'react-router-dom';
 import AboutTrail from './AboutTrail';
@@ -36,33 +35,46 @@ function App(props) {
 
   //error handling and making a spinner for loading
   //const [errorMessage, setErrorMessage] = useState(undefined);
-  //const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   
   useEffect(() => {
-    firebase.auth().onAuthStateChanged((firebaseUser) => {
+    const authUnregisterFunction = firebase.auth().onAuthStateChanged((firebaseUser) => {
       if(firebaseUser) {
         setUser(firebaseUser)
-        //setIsLoading(false)
+        setIsLoading(false)
       }
       else {
         setUser(null)
+        setIsLoading(false)
       }
     })
-  })
+
+    return function cleanup() {
+      authUnregisterFunction();
+    }
+  }, []);
+
+  useEffect(() => {
+    const trailResults = props.info.filter(trail =>
+      (trail.zipcode+'').indexOf(''+trailZip) > -1
+    );
+    getTrailResults(trailResults);
+  }, [trailZip, props.info]);
 
   /*spinner and handling sign out with errors
   const handleSignOut = () => {
     setErrorMessage(null); //clear any old errors
     firebase.auth().signOut()
   }
-  
+  */
+
   if(isLoading) {
     return (
       <div className="text-center">
         <i className="fa fa-spinner fa-spin fa-3x" aria-label="Connecting..."></i>
       </div>
     )
-  }*/
+  }
 
   //function which renders list of trails that fit search criteria or all trails when nothing is typed
   const renderTrailList = (renderProps) => <TrailList {...renderProps} trails={trailResults} user={user} />
@@ -70,12 +82,6 @@ function App(props) {
   const searchTyped = e => {
     setZipInp(e.target.value);
   };
-  useEffect(() => {
-    const trailResults = props.info.filter(trail =>
-      (trail.zipcode+'').indexOf(''+trailZip) > -1
-    );
-    getTrailResults(trailResults);
-  }, [trailZip, props.info]);
 
   if (!user) {
     return (
