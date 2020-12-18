@@ -7,30 +7,11 @@ function TrailCard(props) {
     let imgSrc = 'img/'+props.trail.image;
     let imgAlt = props.trail.trailName + " image";
     
-    const [buttonText, setButtonText] = useState("Save"); //same as creating your state variable where "Next" is the default value for buttonText and setButtonText is the setter function for your state variable instead of setState
+    const [buttonText, setButtonText] = useState(""); //same as creating your state variable where "Next" is the default value for buttonText and setButtonText is the setter function for your state variable instead of setState
     const [redirectTo, setRedirectTo] = useState(undefined);
     const [bookedTrails, setBookedTrails] = useState([]);
 
 
-//----------------------setting the initial button text correctly------------------------
-    let isTrailSaved = false;
-
-    console.log('curr user: ');//+props.currentUser.uid);
-    console.log('bookedTrails:'+bookedTrails.length);
-
-    for(let i=0; i<bookedTrails.length; i++) {
-      if(bookedTrails[i].userId===props.currentUser.uid && bookedTrails[i].savedTrail.id===props.trail.id) {
-        isTrailSaved=true;
-      }
-    }     
-
-    if (isTrailSaved) {
-      setButtonText("Unsave");
-    }
-    else {
-      setButtonText("Save");
-    }
-//------------------------------------
 
 
 
@@ -38,6 +19,10 @@ function TrailCard(props) {
 
 
     useEffect(() => {    
+
+        
+
+
         const savedTrailsRef = firebase.database().ref('trails')
         savedTrailsRef.on('value', (snapshot) => {
           const theTrailsObj = snapshot.val()
@@ -49,19 +34,43 @@ function TrailCard(props) {
               return trailKeyObj;
             })
             setBookedTrails(theTrailsArr);
+
+           
+            let isTrailSaved = false;
+            for(let i=0; i<theTrailsArr.length; i++) {
+              console.log('looping through array');
+              if(theTrailsArr[i].userId===props.currentUser.uid && theTrailsArr[i].savedTrail.id===props.trail.id) {
+                setButtonText("unsave");
+                isTrailSaved = true;
+        
+              }
+            }  
+            if(!isTrailSaved) {
+              setButtonText("save");
+            }
+
           }
-          else setBookedTrails([]);
-        })
+          else {
+            setBookedTrails([]);
+            setButtonText("save");
+          }
+
+        });
+
+
+
+
       }, [])
   
     const handleClick = () => {
       setRedirectTo(props.trail.trailName);
     }
+
   
     if(redirectTo !== undefined) {
       return <Redirect push to={"/AboutTrail/" + redirectTo }/>
     }
-  
+
     // When save button is clicked, toggles it visually
     // also changes the actual "saved" or not information  
     const handleSaveClick = () => {
